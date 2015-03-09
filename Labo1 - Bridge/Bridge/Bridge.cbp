@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +23,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -32,7 +34,21 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/Circle.h" />
+		<Unit filename="include/Drawing.h" />
+		<Unit filename="include/Hexagon.h" />
+		<Unit filename="include/Rectangle.h" />
+		<Unit filename="include/Shape.h" />
+		<Unit filename="include/V1Drawing.h" />
+		<Unit filename="include/V2Drawing.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/Circle.cpp" />
+		<Unit filename="src/Drawing.cpp" />
+		<Unit filename="src/Hexagon.cpp" />
+		<Unit filename="src/Rectangle.cpp" />
+		<Unit filename="src/Shape.cpp" />
+		<Unit filename="src/V1Drawing.cpp" />
+		<Unit filename="src/V2Drawing.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

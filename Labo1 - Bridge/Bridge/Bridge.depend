@@ -1,0 +1,39 @@
+# depslib dependency file v1.0
+1385316878 source:c:\users\matthieu.bandelie\documents\he_arc\cours2esem2\2_designpatterns\tp\designpatterns14-15\labo1 - bridge\bridge\main.cpp
+	<iostream>
+
+1425905383 source:c:\users\matthieu.bandelie\documents\he_arc\cours2esem2\2_designpatterns\tp\designpatterns14-15\labo1 - bridge\bridge\src\circle.cpp
+	"Circle.h"
+
+1425905383 c:\users\matthieu.bandelie\documents\he_arc\cours2esem2\2_designpatterns\tp\designpatterns14-15\labo1 - bridge\bridge\include\circle.h
+
+1425905245 source:c:\users\matthieu.bandelie\documents\he_arc\cours2esem2\2_designpatterns\tp\designpatterns14-15\labo1 - bridge\bridge\src\drawing.cpp
+	"Drawing.h"
+
+1425905245 c:\users\matthieu.bandelie\documents\he_arc\cours2esem2\2_designpatterns\tp\designpatterns14-15\labo1 - bridge\bridge\include\drawing.h
+
+1425905417 source:c:\users\matthieu.bandelie\documents\he_arc\cours2esem2\2_designpatterns\tp\designpatterns14-15\labo1 - bridge\bridge\src\hexagon.cpp
+	"Hexagon.h"
+
+1425905416 c:\users\matthieu.bandelie\documents\he_arc\cours2esem2\2_designpatterns\tp\designpatterns14-15\labo1 - bridge\bridge\include\hexagon.h
+
+1425905356 source:c:\users\matthieu.bandelie\documents\he_arc\cours2esem2\2_designpatterns\tp\designpatterns14-15\labo1 - bridge\bridge\src\rectangle.cpp
+	"Rectangle.h"
+
+1425905356 c:\users\matthieu.bandelie\documents\he_arc\cours2esem2\2_designpatterns\tp\designpatterns14-15\labo1 - bridge\bridge\include\rectangle.h
+
+1425905340 source:c:\users\matthieu.bandelie\documents\he_arc\cours2esem2\2_designpatterns\tp\designpatterns14-15\labo1 - bridge\bridge\src\shape.cpp
+	"Shape.h"
+
+1425905340 c:\users\matthieu.bandelie\documents\he_arc\cours2esem2\2_designpatterns\tp\designpatterns14-15\labo1 - bridge\bridge\include\shape.h
+
+1425905280 source:c:\users\matthieu.bandelie\documents\he_arc\cours2esem2\2_designpatterns\tp\designpatterns14-15\labo1 - bridge\bridge\src\v1drawing.cpp
+	"V1Drawing.h"
+
+1425905280 c:\users\matthieu.bandelie\documents\he_arc\cours2esem2\2_designpatterns\tp\designpatterns14-15\labo1 - bridge\bridge\include\v1drawing.h
+
+1425905309 source:c:\users\matthieu.bandelie\documents\he_arc\cours2esem2\2_designpatterns\tp\designpatterns14-15\labo1 - bridge\bridge\src\v2drawing.cpp
+	"V2Drawing.h"
+
+1425906196 c:\users\matthieu.bandelie\documents\he_arc\cours2esem2\2_designpatterns\tp\designpatterns14-15\labo1 - bridge\bridge\include\v2drawing.h
+

@@ -5,7 +5,7 @@
 class V2Drawing
 {
     public:
-        V2Drawing();
+        V2Drawing();//s
         virtual ~V2Drawing();
     protected:
     private:
