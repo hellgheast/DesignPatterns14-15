@@ -28,5 +28,4 @@
 *.app
 
 #Dependancy files
-*.depend
 *.layout
