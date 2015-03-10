@@ -1,13 +1,15 @@
 #ifndef RECTANGLE_H
 #define RECTANGLE_H
 
+#include "Shape.h"
 
-class Rectangle
+class Rectangle : virtual public Shape
 {
     public:
-        Rectangle();
+        Rectangle(Drawing _apiDrawing);
         virtual ~Rectangle();
     protected:
+        virtual void draw();
     private:
 };
 

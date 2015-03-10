@@ -1,13 +1,15 @@
 #ifndef CIRCLE_H
 #define CIRCLE_H
 
+#include "Shape.h"
 
-class Circle
+class Circle : virtual public Shape
 {
     public:
-        Circle();
+        Circle(Drawing _apiDrawing);
         virtual ~Circle();
     protected:
+        virtual void draw();
     private:
 };
 

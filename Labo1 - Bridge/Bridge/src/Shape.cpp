@@ -1,8 +1,8 @@
 #include "Shape.h"
 
-Shape::Shape()
+Shape::Shape(Drawing _apiDrawing) : apiDrawing(_apiDrawing)
 {
-    //ctor
+
 }
 
 Shape::~Shape()
