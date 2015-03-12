@@ -10,74 +10,88 @@
 
 using namespace std;
 
-//Renvoie le caractère saisi par l'utilisateur. Ne gère pas les exceptions de saisi.
-char keyboardInput()
+//Affiche le menu API, gère l'erreur de saisi et renvoie la saisi.
+char menuAPI(bool answerOk)
 {
-    char c;
-    cin>>c;
-    return c;
+    char answer;
+    cout<<"--Cette interface permet d'instancier des formes avec deux APIs.--"<<endl<<endl;
+    cout<<"Choisissez une API:"<<endl<<endl;
+    cout<<"[1] API version 1"<<endl;
+    cout<<"[2] API version 2"<<endl;
+    if(!answerOk)
+        cout<<"----ERREUR DE SAISI----"<<endl;
+    else
+        cout<<endl;
+    cout<<"Votre choix: ";
+    cin>>answer;
+    cout<<"--Cette interface permet d'instancier des formes avec deux APIs.--"<<endl<<endl;
+    cout<<"Choisissez une API:"<<endl<<endl;
+    cout<<"[1] API version 1"<<endl;
+    cout<<"[2] API version 2"<<endl<<endl;
+    cout<<"Votre choix: "<<answer<<endl<<endl;
+    return answer;
+}
+
+//Affiche le menu de dessin des formes, gère l'erreur de saisi et renvoie la saisi.
+char menuFormes(bool answerOk)
+{
+    char answer;
+    cout<<"--Cette interface permet d'instancier des formes avec deux APIs.--"<<endl<<endl;
+    cout<<"Choisissez une forme:"<<endl<<endl;
+    cout<<"[1] Dessine un rectangle."<<endl;
+    cout<<"[2] Dessine un hexagon."<<endl;
+    cout<<"[3] Dessine un cercle."<<endl;
+    cout<<"[4] Changer d'API."<<endl;
+    cout<<"[5] Quitter."<<endl;
+    if(!answerOk)
+        cout<<"----ERREUR DE SAISI----"<<endl;
+    else
+        cout<<endl;
+    cout<<"Votre choix: ";
+    cin>>answer;
+    system("cls");
+    cout<<"--Cette interface permet d'instancier des formes avec deux APIs.--"<<endl<<endl;
+    cout<<"Choisissez une forme:"<<endl<<endl;
+    cout<<"[1] Dessine un rectangle."<<endl;
+    cout<<"[2] Dessine un hexagon."<<endl;
+    cout<<"[3] Dessine un cercle."<<endl;
+    cout<<"[4] Changer d'API."<<endl;
+    cout<<"[5] Quitter."<<endl<<endl;
+    cout<<"Votre choix: "<<answer<<endl<<endl;
+    return answer;
 }
 
 //Créer une interface pour l'utilisateur.
 void interface()
 {
     char answer='4';
-    bool isAPI1,answerOk,stop,error=false;
+    bool isAPI1,answerOk=true,stop;
+
     do
     {
         if(answer=='4')
             do
             {
-                cout<<"--Cette interface permet d'instancier des formes avec deux APIs.--"<<endl<<endl;
-                cout<<"Choisissez une API:"<<endl<<endl;
-                cout<<"[1] API version 1"<<endl;
-                cout<<"[2] API version 2"<<endl;
-                if(error)
-                {
-                    cout<<"----ERREUR DE SAISI----"<<endl;
-                    error=false;
-                }
-                else
-                    cout<<endl;
-                cout<<"Votre choix: ";
-                answer=keyboardInput();
-                answerOk=false;
+                answer=menuAPI(answerOk);
+                answerOk=true;
                 switch(answer)
                 {
                 case '1':
                     isAPI1=true;
-                    answerOk=true;
                     break;
                 case '2':
                     isAPI1=false;
-                    answerOk=true;
                     break;
                 default:
-                    error=true;
+                    answerOk=false;
                 }
                 system("cls");
             }
             while(!answerOk);
         do
         {
-            cout<<"--Cette interface permet d'instancier des formes avec deux APIs.--"<<endl<<endl;
-            cout<<"Choisissez une forme:"<<endl<<endl;
-            cout<<"[1] Dessine un rectangle."<<endl;
-            cout<<"[2] Dessine un hexagon."<<endl;
-            cout<<"[3] Dessine un cercle."<<endl;
-            cout<<"[4] Changer d'API."<<endl;
-            cout<<"[5] Quitter."<<endl;
-            if(error)
-            {
-                cout<<"----ERREUR DE SAISI----"<<endl;
-                error=false;
-            }
-            else
-                cout<<endl;
-            cout<<"Votre choix: ";
-            answer=keyboardInput();
-            cout<<endl;
-            answerOk=false;
+            answer=menuFormes(answerOk);
+            answerOk=true;
             switch(answer)
             {
             case '1':
@@ -91,7 +105,6 @@ void interface()
                     RectangleV2 shape=RectangleV2();
                     shape.draw();
                 }
-                answerOk=true;
                 break;
             case '2':
                 if (isAPI1)
@@ -104,7 +117,6 @@ void interface()
                     HexagonV2 shape=HexagonV2();
                     shape.draw();
                 }
-                answerOk=true;
                 break;
             case '3':
                 if (isAPI1)
@@ -117,18 +129,15 @@ void interface()
                     CircleV2 shape=CircleV2();
                     shape.draw();
                 }
-                answerOk=true;
                 break;
             case '4':
-                answerOk=true;
                 system("cls");
                 break;
             case '5':
                 stop=true;
-                answerOk=true;
                 break;
             default:
-                error=true;
+                answerOk=false;
                 system("cls");
             }
             if(answer=='1'||answer=='2'||answer=='3')
@@ -139,7 +148,6 @@ void interface()
             }
         }
         while(!answerOk);
-
     }
     while (!stop);
 }
