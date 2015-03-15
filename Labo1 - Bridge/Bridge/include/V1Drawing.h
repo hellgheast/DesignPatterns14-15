@@ -8,12 +8,13 @@ class V1Drawing : public Drawing
         V1Drawing();
         virtual ~V1Drawing();
 
-        void drawRectangle()=0;
-        void drawCircle()=0;
-        void drawHexagon()=0;
-
+        void drawRectangleV1();
+        void drawCircleV1();
+        void drawHexagonV1();
     protected:
     private:
+        void drawLineV1(int side);
+        void drawPointV1();
 
 };
 

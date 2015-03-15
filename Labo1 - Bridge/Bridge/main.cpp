@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Shape.h"
 
 #include "circle.h"
 #include "rectangle.h"

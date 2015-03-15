@@ -9,3 +9,26 @@ V2Drawing::~V2Drawing()
 {
     //dtor
 }
+
+void V2Drawing::drawCirclev2()
+{
+    drawPointV2();
+}
+void V2Drawing::drawRectangleV2()
+{
+    cout << "Drawing rectangle using API2." << endl;
+}
+void V2Drawing::drawHexagonV2()
+{
+    cout << "Drawing hexagon using API2." << endl;
+}
+
+void V2Drawing::drawPointV2()
+{
+    cout << "Drawing circle's points using API2." << endl;
+}
+
+void V2Drawing::drawLineV2(int side)
+{
+    cout << "Drawing line " << side << " using API2." << endl;
+}
