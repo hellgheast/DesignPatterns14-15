@@ -5,6 +5,8 @@ Drawing::Drawing()
     //ctor
 }
 
+
+
 Drawing::~Drawing()
 {
     //dtor
