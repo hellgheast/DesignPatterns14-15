@@ -1,6 +1,9 @@
 #ifndef V1DRAWING_H
 #define V1DRAWING_H
 #include "Drawing.h"
+#include <iostream>
+
+using namespace std;
 
 class V1Drawing : public Drawing
 {
@@ -8,9 +11,9 @@ class V1Drawing : public Drawing
         V1Drawing();
         virtual ~V1Drawing();
 
-        void drawRectangleV1();
-        void drawCircleV1();
-        void drawHexagonV1();
+        void drawRectangle();
+        void drawCircle();
+        void drawHexagon();
     protected:
     private:
         void drawLineV1(int side);

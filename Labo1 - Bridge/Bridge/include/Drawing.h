@@ -10,12 +10,12 @@ class Drawing
         //destructor
         virtual ~Drawing();
 
-    protected:
-
         //virtual methods
         virtual void drawRectangle()=0;
         virtual void drawCircle()=0;
         virtual void drawHexagon()=0;
+
+    protected:
 
     private:
 };

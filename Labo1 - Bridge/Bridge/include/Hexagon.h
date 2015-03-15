@@ -3,10 +3,10 @@
 
 #include "Shape.h"
 
-class Hexagon : virtual public Shape
+class Hexagon : public Shape
 {
     public:
-        Hexagon(Drawing _apiDrawing);
+        Hexagon(Drawing* _apiDrawing);
         virtual ~Hexagon();
     protected:
         virtual void draw();

@@ -10,20 +10,22 @@ V1Drawing::~V1Drawing()
     //dtor
 }
 
-void V1Drawing::drawCircleV1()
+void V1Drawing::drawCircle()
 {
     drawPointV1();
 }
-void V1Drawing::drawRectangleV1()
+void V1Drawing::drawRectangle()
 {
+    cout << "Drawing rectangle using API1 :" << endl;
     drawLineV1(1);
     drawLineV1(2);
     drawLineV1(3);
     drawLineV1(4);
 
 }
-void V1Drawing::drawHexagonV1()
+void V1Drawing::drawHexagon()
 {
+    cout << "Drawing hexagon using API1 :" << endl;
     drawLineV1(1);
     drawLineV1(2);
     drawLineV1(3);
@@ -39,5 +41,5 @@ void V1Drawing::drawPointV1()
 
 void V1Drawing::drawLineV1(int side)
 {
-    cout << "Drawing line " << side <<" using API1." << endl;
+    cout << "Drawing line " << side << endl;
 }

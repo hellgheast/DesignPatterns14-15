@@ -1,6 +1,6 @@
 #include "Circle.h"
 
-Circle::Circle(Drawing _apiDrawing) : Shape(_apiDrawing)
+Circle::Circle(Drawing* _apiDrawing) : Shape(_apiDrawing)
 {
     //ctor
 }
@@ -11,6 +11,5 @@ Circle::~Circle()
 }
 
 void Circle::draw(){
-    //apiDrawing.drawCircle();
-    cout << "circle" << endl;
+    apiDrawing->drawCircle();
 }

@@ -1,6 +1,6 @@
 #include "Hexagon.h"
 
-Hexagon::Hexagon(Drawing _apiDrawing) : Shape(_apiDrawing)
+Hexagon::Hexagon(Drawing* _apiDrawing) : Shape(_apiDrawing)
 {
     //ctor
 }
@@ -11,5 +11,5 @@ Hexagon::~Hexagon()
 }
 
 void Hexagon::draw(){
-    cout << "hexagon" << endl;
+    apiDrawing->drawHexagon();
 }

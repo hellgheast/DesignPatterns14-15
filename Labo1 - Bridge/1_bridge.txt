@@ -1,0 +1,61 @@
+tp 1 sur bridge
+
+: rapport 2 pages (pdf)
+: images, avec légende et indice
+: une petite intro et une petite conclusion
+: c++
+: mail
+: code source, non compilé  + pdf
+
+
+
+
+
+					Bridge					Basique
+
+Nombre de classes (sans main)		2 + nbShapes + nbAPI			1 + nbShapes + nbShapes*nbAPI + nbAPI
+									 =	(nbShapes+1) * (nbAPI+1)
+
+En fixant nbAPI à 2			nbShapes + 4				3*nbShapes + 3
+
+En fixant nbAPI à 4			nbShapes + 6				5*nbShapes + 5
+
+
+
+	2 API
+
+Avec peu de "Shapes", il n'y a pas une grande différence pour 2 API
+Exemple avec 2 "Shapes" (Rectangle et cercle) : 
+
+Bridge : 6 classes
+Basique: 9 classes
+
+Quand on a beaucoup de "Shapes" (Rectangle, elipse, etc...) 
+on tend vers 3 fois plus de classes en codant bêtement comparé au DP 'bridge'.
+Exemple avec 30 "Shapes" et 2 API(...)
+
+Bridge : 34 classes
+Basique: 93 classes
+
+
+
+	4 API
+
+Avec peu de "Shapes", il n'y a pas une grande différence pour 4 API
+Exemple avec 2 "Shapes" (Rectangle et cercle) : 
+
+Bridge : 8 classes
+Basique: 15 classes
+
+Quand on a beaucoup de "Shapes" (Rectangle, elipse, etc...) 
+on tend vers 5 fois plus de classes en codant bêtement comparé au DP 'bridge'.
+Exemple avec 30 "Shapes" et 4 API(...)
+
+Bridge : 36 classes
+Basique: 155 classes
+
+
+
+
+
+

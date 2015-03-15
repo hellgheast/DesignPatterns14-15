@@ -1,6 +1,6 @@
 #include "Rectangle.h"
 
-Rectangle::Rectangle(Drawing _apiDrawing) : Shape(_apiDrawing)
+Rectangle::Rectangle(Drawing* _apiDrawing) : Shape(_apiDrawing)
 {
     //ctor
 }
@@ -11,6 +11,5 @@ Rectangle::~Rectangle()
 }
 
 void Rectangle::draw(){
-    //apiDrawing.drawRect()
-    cout << "rectangle" << endl;
+    apiDrawing->drawRectangle();
 }

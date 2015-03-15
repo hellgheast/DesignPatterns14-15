@@ -9,11 +9,11 @@ using namespace std;
 class Shape
 {
     public:
-        Shape(Drawing);
+        Shape(Drawing*);
         virtual ~Shape();
         virtual void draw() = 0; //méthode virtuelle pure
     protected:
-        Drawing apiDrawing;
+        Drawing* apiDrawing;
     private:
 };
 

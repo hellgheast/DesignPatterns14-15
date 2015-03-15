@@ -3,10 +3,10 @@
 
 #include "Shape.h"
 
-class Rectangle : virtual public Shape
+class Rectangle : public Shape
 {
     public:
-        Rectangle(Drawing _apiDrawing);
+        Rectangle(Drawing* _apiDrawing);
         virtual ~Rectangle();
     protected:
         virtual void draw();

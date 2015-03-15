@@ -1,8 +1,11 @@
 #ifndef V2DRAWING_H
 #define V2DRAWING_H
 #include "Drawing.h"
+#include <iostream>
 
-class V2Drawing
+using namespace std;
+
+class V2Drawing : public Drawing
 {
     public:
         //constructor
@@ -10,9 +13,9 @@ class V2Drawing
         //destructor
         virtual ~V2Drawing();
 
-        void drawCirclev2();
-        void drawRectangleV2();
-        void drawHexagonV2();
+        void drawRectangle();
+        void drawCircle();
+        void drawHexagon();
     protected:
     private:
         void drawLineV2(int side);
