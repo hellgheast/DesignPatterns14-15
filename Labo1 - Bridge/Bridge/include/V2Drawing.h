@@ -11,7 +11,7 @@ class V2Drawing : public Drawing
         //constructor
         V2Drawing();
         //destructor
-        virtual ~V2Drawing();
+        ~V2Drawing();
 
         void drawRectangle();
         void drawCircle();

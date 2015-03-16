@@ -7,9 +7,9 @@ class Circle : public Shape
 {
     public:
         Circle(Drawing* _apiDrawing);
-        virtual ~Circle();
+        ~Circle();
+        void draw();
     protected:
-        virtual void draw();
     private:
 };
 

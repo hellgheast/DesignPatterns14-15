@@ -7,9 +7,9 @@ class Hexagon : public Shape
 {
     public:
         Hexagon(Drawing* _apiDrawing);
-        virtual ~Hexagon();
+        ~Hexagon();
+        void draw();
     protected:
-        virtual void draw();
     private:
 };
 

@@ -9,7 +9,7 @@ class V1Drawing : public Drawing
 {
     public:
         V1Drawing();
-        virtual ~V1Drawing();
+        ~V1Drawing();
 
         void drawRectangle();
         void drawCircle();

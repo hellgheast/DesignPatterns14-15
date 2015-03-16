@@ -7,9 +7,9 @@ class Rectangle : public Shape
 {
     public:
         Rectangle(Drawing* _apiDrawing);
-        virtual ~Rectangle();
+        ~Rectangle();
+        void draw();
     protected:
-        virtual void draw();
     private:
 };
 

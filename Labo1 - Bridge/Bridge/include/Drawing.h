@@ -16,7 +16,6 @@ class Drawing
         virtual void drawHexagon()=0;
 
     protected:
-
     private:
 };
 

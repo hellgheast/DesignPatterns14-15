@@ -13,12 +13,12 @@ tp 1 sur bridge
 
 					Bridge					Basique
 
-Nombre de classes (sans main)		2 + nbShapes + nbAPI			1 + nbShapes + nbShapes*nbAPI + nbAPI
-									 =	(nbShapes+1) * (nbAPI+1)
+Nombre de classes (sans main)		2 + nbShapes + nbAPI			1 + nbShapes + nbShapes*nbAPI
+									 =	1 + (nbShapes * (nbAPI+1))
 
-En fixant nbAPI à 2			nbShapes + 4				3*nbShapes + 3
+En fixant nbAPI à 2			nbShapes + 4				3*nbShapes + 1
 
-En fixant nbAPI à 4			nbShapes + 6				5*nbShapes + 5
+En fixant nbAPI à 4			nbShapes + 6				5*nbShapes + 1
 
 
 
@@ -35,7 +35,7 @@ on tend vers 3 fois plus de classes en codant bêtement comparé au DP 'bridge'.
 Exemple avec 30 "Shapes" et 2 API(...)
 
 Bridge : 34 classes
-Basique: 93 classes
+Basique: 91 classes
 
 
 
@@ -52,7 +52,7 @@ on tend vers 5 fois plus de classes en codant bêtement comparé au DP 'bridge'.
 Exemple avec 30 "Shapes" et 4 API(...)
 
 Bridge : 36 classes
-Basique: 155 classes
+Basique: 151 classes
 
 
 
