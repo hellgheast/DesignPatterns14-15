@@ -4,8 +4,9 @@
 #include <QWidget>
 #include "segment.h"
 #include <QPainter>
+#include <QtWidgets>
 
-class Widget : public QWidget
+class Widget : public QGraphicsView
 {
     Q_OBJECT
 
@@ -14,11 +15,28 @@ public:
     ~Widget();
 
 protected:
-    void paintEvent(QPaintEvent *);
+    //void paintEvent(QPaintEvent *);
+
+    void mousePressEvent(QMouseEvent *);
+    void mouseMoveEvent(QMouseEvent *);
+    void wheelEvent(QWheelEvent *);
 
 private:
     QList<Segment*> segs;
     void fractal(int, Segment*a);
+
+protected:
+
+
+private:
+    double scaleFactor;
+    QPoint start;
+    QPoint end;
+    QGraphicsScene *scene;
+    QGraphicsTextItem* txt1;
+
+    void texteUpdate();
+    void restoreOriginalZoom();
 };
 
 #endif // WIDGET_H
