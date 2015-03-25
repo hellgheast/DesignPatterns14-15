@@ -1,5 +1,4 @@
 #include "widget.h"
-#include "mylineitem.h"
 
 Widget::Widget(QWidget *parent)
     : QGraphicsView(parent), scaleFactor(1.0), editionMode(false)
@@ -8,6 +7,8 @@ Widget::Widget(QWidget *parent)
     setMatrix(QMatrix(0.1,0,0,-0.1,0,0));
     pen = new QPen(Qt::red);
     pen->setWidth(0);
+
+
     //scene->addLine(0,0,0,150,QPen(Qt::green));
     //scene->addLine(0,0,150,0,QPen(Qt::red));
     //txt1 = new QGraphicsTextItem();
@@ -15,7 +16,6 @@ Widget::Widget(QWidget *parent)
     //scene->addItem(txt1);
     //texteUpdate();
 
-    setCursor(QCursor(Qt::OpenHandCursor));
     setScene(scene);
     setSceneRect(-13000,-10000,26000,20000);
 
@@ -37,6 +37,11 @@ Widget::Widget(QWidget *parent)
 
     fractal(8,segInitial);
     fractal(8,segInitial2);
+
+
+    this->setDragMode(QGraphicsView::ScrollHandDrag);
+    this->setRenderHints(QPainter::SmoothPixmapTransform);
+
 }
 
 Widget::~Widget()
@@ -82,22 +87,15 @@ void Widget::fractal(int profondeur, Segment firstRacine)
 void Widget::mousePressEvent(QMouseEvent * event){
     if(event->button() == Qt::LeftButton){
         if (editionMode){
-            setCursor(QCursor(Qt::CrossCursor));
             startLogic = mapToScene(event->pos());
             tempLineEdition = scene->addLine(0,0,0,0);
-        }
-        else{
-            //trouver le centre de ma vue en coordonnées logiques
-            centerLogic = mapToScene(viewport()->rect().center());
-
-            setCursor(QCursor(Qt::ClosedHandCursor));
-            startLogic = mapToScene(event->pos());
         }
     }
     else if( event->button() == Qt::MidButton){
         restoreOriginalZoom();
         texteUpdate();
     }
+    QGraphicsView::mousePressEvent(event);
 }
 
 void Widget::mouseMoveEvent(QMouseEvent * event){
@@ -107,22 +105,13 @@ void Widget::mouseMoveEvent(QMouseEvent * event){
         if (editionMode){
             tempLineEdition = scene->addLine(startLogic.x(),startLogic.y(), endLogic.x(), endLogic.y());
         }
-        else{
-            int diffX = startLogic.x()-endLogic.x();
-            int diffY = startLogic.y()-endLogic.y();
-
-            QPointF newCenter = QPointF(centerLogic.x()+diffX, centerLogic.y()+diffY);
-            centerOn(newCenter);
-
-            //trouver le centre de ma vue en coordonnées logiques
-            centerLogic = newCenter;
-            startLogic = endLogic;
-        }
     }
     else if(event->buttons()== Qt::RightButton){
          rotate(2);
     }
-    texteUpdate();
+    texteUpdate();//inutile
+
+    QGraphicsView::mouseMoveEvent(event);
 }
 
 void Widget::mouseReleaseEvent(QMouseEvent * event)
@@ -132,11 +121,12 @@ void Widget::mouseReleaseEvent(QMouseEvent * event)
             createdLines.append(tempLineEdition);
         }
         else{
-            setCursor(QCursor(Qt::OpenHandCursor));
-            recompute();
+
+
+            //recompute();
         }
     }
-
+    QGraphicsView::mouseReleaseEvent(event);
 
 }
 
@@ -146,6 +136,7 @@ void Widget::mouseDoubleClickEvent(QMouseEvent * event)
     {
         this->showFullScreen();
     }
+    QGraphicsView::mouseDoubleClickEvent(event);
 }
 
 void Widget::wheelEvent(QWheelEvent * a){
@@ -202,10 +193,12 @@ void Widget::changeMode()
         foreach(QGraphicsLineItem* lineItem, createdLines){
             fractal(7,Segment(lineItem->line()));
         }
-        setCursor(QCursor(Qt::OpenHandCursor));
+        this->setDragMode(QGraphicsView::ScrollHandDrag);
     }
     else{
         scene->clear();
+        createdLines.clear();
+        this->setDragMode(QGraphicsView::NoDrag);
         setCursor(QCursor(Qt::CrossCursor));
     }
 
