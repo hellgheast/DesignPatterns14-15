@@ -1,25 +1,28 @@
 #include "segment.h"
 
-Segment::Segment(double _x1, double _y1, double _x2, double _y2): x1(_x1), y1(_y1), x2(_x2), y2(_y2)
+Segment::Segment(double _x1, double _y1, double _x2, double _y2, int _deepness): deepness(_deepness)
+{
+    segment = QLineF(_x1,_y1,_x2,_y2);
+}
+
+Segment::Segment(QLineF _segment, int _deepness): segment(_segment), deepness(_deepness)
 {
 
 }
 
-QList<Segment*> Segment::iterer(){
-    QList<Segment*> result;
-    double lenX = (this->x2 - this->x1) / 2;
-    double lenY = (this->y2 - this->y1) / 2;;
-    //ligne1
-    result.append(new Segment(this->x2, this->y2, this->x2 + lenX, this->y2 + lenY) );
+QList<Segment> Segment::iterer(){
+    QList<Segment> result;
+    double lenX = (segment.x2() - segment.x1()) / 2;
+    double lenY = (segment.y2() - segment.y1()) / 2;
 
-    //double a = -(this->y2 - this->y1)/(this->x2 - this->x1); //équation: y = ax+b
-    //double b = this->y2 - a*this->x2;
+    //ligne1
+    result.append( Segment(segment.x2(), segment.y2(), segment.x2() + lenX, segment.y2() + lenY, deepness+1) );
 
     //ligne2 "droite"
-    result.append(new Segment(this->x2, this->y2, this->x2 + lenY, this->y2 - lenX));
+    result.append( Segment(segment.x2(), segment.y2(), segment.x2() + lenY, segment.y2() - lenX, deepness+1) );
 
     //ligne3 "gauche"
-    result.append(new Segment(this->x2, this->y2, this->x2 - lenY, this->y2 + lenX));
+    result.append( Segment(segment.x2(), segment.y2(), segment.x2() - lenY, segment.y2() + lenX, deepness+1) );
 
     return result;
 }
@@ -27,39 +30,38 @@ QList<Segment*> Segment::iterer(){
 
 double Segment::getX1() const
 {
-    return x1;
+    return segment.x1();
 }
 
-void Segment::setX1(double value)
-{
-    x1 = value;
-}
 double Segment::getY1() const
 {
-    return y1;
-}
-
-void Segment::setY1(double value)
-{
-    y1 = value;
+    return segment.y1();
 }
 
 double Segment::getX2() const
 {
-    return x2;
-}
-
-void Segment::setX2(double value)
-{
-    x2 = value;
+    return segment.x2();
 }
 
 double Segment::getY2() const
 {
-    return y2;
+    return segment.y2();
 }
 
-void Segment::setY2(double value)
+int Segment::getDeepness() const
 {
-    y2 = value;
+    return deepness;
+}
+
+QColor Segment::getColor() const
+{
+    int r = 255-deepness*50;
+    int g = 50*deepness-50;
+    int b = 0;
+    return QColor(r,g,b);
+}
+
+int Segment::getWidth() const
+{
+    return 30.0/deepness;
 }

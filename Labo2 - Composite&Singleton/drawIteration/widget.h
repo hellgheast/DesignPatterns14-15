@@ -15,28 +15,30 @@ public:
     ~Widget();
 
 protected:
-    //void paintEvent(QPaintEvent *);
 
     void mousePressEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);
-    void wheelEvent(QWheelEvent *);
-
-private:
-    QList<Segment*> segs;
-    void fractal(int, Segment*a);
-
-protected:
-
+    void mouseReleaseEvent(QMouseEvent*);
+    void mouseDoubleClickEvent(QMouseEvent *);
+    void wheelEvent(QWheelEvent *);    
 
 private:
     double scaleFactor;
-    QPoint start;
-    QPoint end;
+    QPointF startLogic;
+    QPointF endLogic;
+    QPointF centerLogic;
     QGraphicsScene *scene;
     QGraphicsTextItem* txt1;
+    QPen* pen;
+    QAction* quitFullScreen;
+    bool editionMode;
 
+    void fractal(int, Segment a);
     void texteUpdate();
     void restoreOriginalZoom();
+
+public slots:
+    void recompute();
 };
 
 #endif // WIDGET_H

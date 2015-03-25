@@ -2,27 +2,32 @@
 #define SEGMENT_H
 
 #include <QList>
+#include <QLineF>
+#include <QColor>
 
-class Segment
+class Segment : QLineF
 {
 public:
-    Segment(double _x1, double _y1, double _x2, double _y2);
-    QList<Segment *> iterer();
+    Segment(double _x1, double _y1, double _x2, double _y2, int _deepness = 0);
+    Segment(QLineF _segment, int _deepness = 0);
+    QList<Segment> iterer();
 
     double getX1() const;
-    void setX1(double value);
 
     double getY1() const;
-    void setY1(double value);
 
     double getX2() const;
-    void setX2(double value);
 
     double getY2() const;
-    void setY2(double value);
+
+    int getDeepness() const;
+
+    QColor getColor() const;
+    int getWidth() const;
 
 private:
-    double x1,y1,x2,y2;
+    QLineF segment;
+    int deepness;
 };
 
 #endif // SEGMENT_H
