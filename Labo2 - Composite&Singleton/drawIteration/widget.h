@@ -31,7 +31,10 @@ private:
     QGraphicsTextItem* txt1;
     QPen* pen;
     QAction* quitFullScreen;
+    QAction* switchToEditionOrDisplay;
     bool editionMode;
+    QGraphicsLineItem* tempLineEdition;
+    QList<QGraphicsLineItem*> createdLines;
 
     void fractal(int, Segment a);
     void texteUpdate();
@@ -39,6 +42,7 @@ private:
 
 public slots:
     void recompute();
+    void changeMode();
 };
 
 #endif // WIDGET_H

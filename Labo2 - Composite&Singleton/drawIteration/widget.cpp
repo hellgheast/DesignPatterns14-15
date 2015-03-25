@@ -24,9 +24,13 @@ Widget::Widget(QWidget *parent)
     connect(quitFullScreen,SIGNAL(triggered()),this,SLOT(showNormal()));
     this->addAction(quitFullScreen);
 
-    setWindowTitle("DP - EQUIPE I - LABO 2 / Fractal");
+    switchToEditionOrDisplay = new QAction(this);
+    switchToEditionOrDisplay->setShortcut(tr("Ctrl+M"));
+    connect(switchToEditionOrDisplay, SIGNAL(triggered()), this, SLOT(changeMode()));
+    this->addAction(switchToEditionOrDisplay);
 
-    connect(scene,SIGNAL(selectionChanged()),this,SLOT(recompute()));
+    setWindowTitle("DP - EQUIPE I - LABO 2 / Fractal  (Ctrl+m to switch to edit mode)");
+
 
     Segment segInitial = Segment(4650, 200, -850, -1900, 1);
     Segment segInitial2 = Segment(4650, 200, 8050, -1900, 1);
@@ -78,7 +82,9 @@ void Widget::fractal(int profondeur, Segment firstRacine)
 void Widget::mousePressEvent(QMouseEvent * event){
     if(event->button() == Qt::LeftButton){
         if (editionMode){
-
+            setCursor(QCursor(Qt::CrossCursor));
+            startLogic = mapToScene(event->pos());
+            tempLineEdition = scene->addLine(0,0,0,0);
         }
         else{
             //trouver le centre de ma vue en coordonnées logiques
@@ -96,10 +102,10 @@ void Widget::mousePressEvent(QMouseEvent * event){
 
 void Widget::mouseMoveEvent(QMouseEvent * event){
     endLogic = mapToScene(event->pos());
-
+    scene->removeItem(tempLineEdition);
     if((event->buttons() == Qt::LeftButton) ){
         if (editionMode){
-
+            tempLineEdition = scene->addLine(startLogic.x(),startLogic.y(), endLogic.x(), endLogic.y());
         }
         else{
             int diffX = startLogic.x()-endLogic.x();
@@ -112,9 +118,6 @@ void Widget::mouseMoveEvent(QMouseEvent * event){
             centerLogic = newCenter;
             startLogic = endLogic;
         }
-
-
-
     }
     else if(event->buttons()== Qt::RightButton){
          rotate(2);
@@ -126,10 +129,11 @@ void Widget::mouseReleaseEvent(QMouseEvent * event)
 {
     if (event->button() == Qt::LeftButton){
         if (editionMode){
-
+            createdLines.append(tempLineEdition);
         }
         else{
             setCursor(QCursor(Qt::OpenHandCursor));
+            recompute();
         }
     }
 
@@ -162,7 +166,8 @@ void Widget::wheelEvent(QWheelEvent * a){
     setMatrix(QMatrix(transform->m11()*scaleFactor,transform->m12()*scaleFactor, transform->m21()*scaleFactor, transform->m22()*scaleFactor,0,0));
     texteUpdate();
 
-    recompute();
+    if(!editionMode)
+        recompute();
 }
 
 void Widget::texteUpdate(){
@@ -181,12 +186,28 @@ void Widget::recompute()
     QRectF viewRect =  mapToScene(this->rect()).boundingRect();
     QList<QGraphicsItem *> b = scene->items(viewRect);
 
-    for(int i = 0; i < 3; i++){
-        QGraphicsLineItem* li = (QGraphicsLineItem*)b.takeLast();
-        Segment seg = Segment(li->line());
+    for(int i = 0; i < 2; i++){
+        QGraphicsLineItem* lineItem = (QGraphicsLineItem*)b.takeLast();
+        Segment seg = Segment(lineItem->line());
 
         fractal(7,seg);
     }
 
     this->update();
+}
+
+void Widget::changeMode()
+{
+    if(editionMode){
+        foreach(QGraphicsLineItem* lineItem, createdLines){
+            fractal(7,Segment(lineItem->line()));
+        }
+        setCursor(QCursor(Qt::OpenHandCursor));
+    }
+    else{
+        scene->clear();
+        setCursor(QCursor(Qt::CrossCursor));
+    }
+
+    editionMode = !editionMode;
 }
