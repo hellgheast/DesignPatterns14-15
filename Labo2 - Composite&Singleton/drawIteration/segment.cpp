@@ -55,13 +55,8 @@ int Segment::getDeepness() const
 
 QColor Segment::getColor() const
 {
-    int r = 255-deepness*50;
-    int g = 50*deepness-50;
+    int r = qMax(255-deepness*20,0);
+    int g = qMin(20*deepness,255);
     int b = 0;
     return QColor(r,g,b);
-}
-
-int Segment::getWidth() const
-{
-    return 30.0/deepness;
 }

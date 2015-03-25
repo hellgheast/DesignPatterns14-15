@@ -23,7 +23,6 @@ public:
     int getDeepness() const;
 
     QColor getColor() const;
-    int getWidth() const;
 
 private:
     QLineF segment;

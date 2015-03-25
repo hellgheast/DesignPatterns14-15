@@ -98,19 +98,15 @@ void Widget::mousePressEvent(QMouseEvent * event){
     QGraphicsView::mousePressEvent(event);
 }
 
-void Widget::mouseMoveEvent(QMouseEvent * event){
-    endLogic = mapToScene(event->pos());
-    scene->removeItem(tempLineEdition);
-    if((event->buttons() == Qt::LeftButton) ){
-        if (editionMode){
-            tempLineEdition = scene->addLine(startLogic.x(),startLogic.y(), endLogic.x(), endLogic.y());
-        }
+void Widget::mouseMoveEvent(QMouseEvent * event){    
+    if((event->buttons() == Qt::LeftButton && editionMode) ){
+        endLogic = mapToScene(event->pos());
+        scene->removeItem(tempLineEdition);
+        tempLineEdition = scene->addLine(startLogic.x(),startLogic.y(), endLogic.x(), endLogic.y());
     }
     else if(event->buttons()== Qt::RightButton){
          rotate(2);
     }
-    texteUpdate();//inutile
-
     QGraphicsView::mouseMoveEvent(event);
 }
 
@@ -142,7 +138,7 @@ void Widget::mouseDoubleClickEvent(QMouseEvent * event)
 void Widget::wheelEvent(QWheelEvent * a){
     QMatrix*  transform = new QMatrix(this->matrix().m11()/scaleFactor,this->matrix().m12()/scaleFactor,this->matrix().m21()/scaleFactor,this->matrix().m22()/scaleFactor,0,0);
     if(a->delta()>0.0){
-        if( scaleFactor < 90.0){
+        if( scaleFactor < 300.0){
             scaleFactor *= 1.5;
             qDebug() << scaleFactor;
         }
