@@ -7,40 +7,37 @@ Widget::Widget(QWidget *parent)
     setMatrix(QMatrix(0.1,0,0,-0.1,0,0));
     pen = new QPen(Qt::red);
     pen->setWidth(0);
-
-
-    //scene->addLine(0,0,0,150,QPen(Qt::green));
-    //scene->addLine(0,0,150,0,QPen(Qt::red));
-    //txt1 = new QGraphicsTextItem();
-    //txt1->setMatrix(QMatrix(1,0.1,0,-1,0,this->fontMetrics().lineSpacing()*3 + 3));
-    //scene->addItem(txt1);
-    //texteUpdate();
-
     setScene(scene);
     setSceneRect(-13000,-10000,26000,20000);
-
-    quitFullScreen = new QAction(this);
-    quitFullScreen->setShortcut(Qt::Key_Escape);
-    connect(quitFullScreen,SIGNAL(triggered()),this,SLOT(showNormal()));
-    this->addAction(quitFullScreen);
 
     switchToEditionOrDisplay = new QAction(this);
     switchToEditionOrDisplay->setShortcut(tr("Ctrl+M"));
     connect(switchToEditionOrDisplay, SIGNAL(triggered()), this, SLOT(changeMode()));
     this->addAction(switchToEditionOrDisplay);
 
-    setWindowTitle("DP - EQUIPE I - LABO 2 / Fractal  (Ctrl+m to switch to edit mode)");
 
 
-    Segment segInitial = Segment(4650, 200, -850, -1900, 1);
-    Segment segInitial2 = Segment(4650, 200, 8050, -1900, 1);
+//    LeafSegment* compInitial = new LeafSegment(4650, 200, -850, -1900, 0);
+//    fractal2(6,compInitial);
 
-    fractal(8,segInitial);
-    fractal(8,segInitial2);
+    limite = 7;
 
+    Segment segInitial = Segment(4650, 200, -850, -1900);
+    Segment segInitial2 = Segment(4650, 200, 8050, -1900);
+
+    pen->setColor(segInitial.getColor());
+    QGraphicsLineItem* segInitialLineItem = new QGraphicsLineItem(segInitial.getSegment());
+    segInitialLineItem->setPen(*pen);
+    scene->addItem(segInitialLineItem);
+    segInitial.setOwnLineItemPtr(segInitialLineItem);
+
+
+    fractal(limite,segInitial);
+    fractal(limite,segInitial2);
 
     this->setDragMode(QGraphicsView::ScrollHandDrag);
-    this->setRenderHints(QPainter::SmoothPixmapTransform);
+    this->setRenderHints(QPainter::Antialiasing);
+
 
 }
 
@@ -59,28 +56,100 @@ Widget::~Widget()
  */
 void Widget::fractal(int profondeur, Segment firstRacine)
 {
+    //compteur du nombre d'itérations
     int compteur = 0;
-    for(int i = 0; i <= profondeur; i++){
+    for(int i = 1; i <= profondeur; i++){
         compteur +=  qPow(3,i);
     }
 
-
+    //initialisations des variables
+    int profTotale = profondeur+firstRacine.getDeepness();
     QQueue<Segment> file;
-    file.append(firstRacine);
-    Segment racine = Segment(0,0,0,0);
     QList<Segment> listFils;
+    listFils = firstRacine.iterer();
+    foreach (Segment fils , listFils){
+        file.enqueue(fils);
+    }
+
+    QGraphicsLineItem* qgliPere;
+    Segment pere;
+
 
     while(compteur != 0){
-        racine = file.takeFirst();
-        pen->setColor(racine.getColor());
-        scene->addLine(racine.getX1(), racine.getY1(), racine.getX2(), racine.getY2(),*pen);
-        //scene->addItem(MyLineItem(racine.getDeepness(),QGraphicsLineItem(racine.getX1(), racine.getY1(), racine.getX2(), racine.getY2())));
-        listFils = racine.iterer();
-        foreach (Segment fils , listFils)
-            file.append(fils);
+        pere = file.dequeue();
+        qgliPere = new QGraphicsLineItem(pere.getSegment());
+
+
+
+        //data du lineItem
+        qgliPere->setData(ItemDepth, pere.getDeepness());
+        if(profTotale == pere.getDeepness()){
+            qgliPere->setData(ItemIsLeaf, true);
+        }
+        else{
+            qgliPere->setData(ItemIsLeaf, false);
+        }
+
+        //couleur
+        pen->setColor(pere.getColor());
+        qgliPere->setPen(*pen);
+
+        //ajout à la scène
+        scene->addItem(qgliPere);
+
+        //itération et ajout à la queue
+        listFils = pere.iterer();
+        foreach (Segment fils , listFils){
+            file.enqueue(fils);
+        }
 
         --compteur;
     }
+}
+
+/**
+ * @brief Widget::fractal2
+ * @param profondeur ( > noeudRacine->getDeppness() )
+ * @param noeudRacine
+ */
+void Widget::fractal2(int profondeur, LeafSegment *noeudRacine)
+{
+//    if(profondeur > noeudRacine->getDeepness() ){
+//        int compteur = 0;
+//        for(int i = noeudRacine->getDeepness()+1; i <= profondeur; i++){
+//            compteur +=  qPow(3,i);
+//        }
+
+//        QQueue<Node*> file;
+//        file.append(noeudRacine);
+//        Node* racine;
+//        QList<Node*> listFils;
+//        QGraphicsLineItem* qgli;
+
+//        while(compteur != 0){
+//            racine = file.takeFirst();
+
+//            qgli = new QGraphicsLineItem(racine->getSegment());
+
+//            pen->setColor(racine->getColor());
+//            qgli->setPen(*pen);
+
+//            scene->addItem(qgli);
+
+//            //scene->addLine(racine->getX1(), racine->getY1(), racine->getX2(), racine->getY2(),*pen);
+//            //scene->addItem(MyLineItem(racine.getDeepness(),QGraphicsLineItem(racine.getX1(), racine.getY1(), racine.getX2(), racine.getY2())));
+
+//            listFils = racine.iterer();
+//            foreach (Segment fils , listFils)
+//                file.append(fils);
+
+//            --compteur;
+//        }
+//    }
+//    else{
+//        qDebug() << "rien à faire";
+//    }
+
 }
 
 
@@ -93,12 +162,11 @@ void Widget::mousePressEvent(QMouseEvent * event){
     }
     else if( event->button() == Qt::MidButton){
         restoreOriginalZoom();
-        texteUpdate();
     }
     QGraphicsView::mousePressEvent(event);
 }
 
-void Widget::mouseMoveEvent(QMouseEvent * event){    
+void Widget::mouseMoveEvent(QMouseEvent * event){
     if((event->buttons() == Qt::LeftButton && editionMode) ){
         endLogic = mapToScene(event->pos());
         scene->removeItem(tempLineEdition);
@@ -117,9 +185,8 @@ void Widget::mouseReleaseEvent(QMouseEvent * event)
             createdLines.append(tempLineEdition);
         }
         else{
-
-
-            //recompute();
+            keepDetailLevel();
+            uniformiser();
         }
     }
     QGraphicsView::mouseReleaseEvent(event);
@@ -129,8 +196,10 @@ void Widget::mouseReleaseEvent(QMouseEvent * event)
 void Widget::mouseDoubleClickEvent(QMouseEvent * event)
 {
     if ( event->button() == Qt::LeftButton )
-    {
-        this->showFullScreen();
+    {        
+        QWidget* widgetParent = (QDialog*)parent();
+        widgetParent->showFullScreen();
+
     }
     QGraphicsView::mouseDoubleClickEvent(event);
 }
@@ -140,7 +209,7 @@ void Widget::wheelEvent(QWheelEvent * a){
     if(a->delta()>0.0){
         if( scaleFactor < 300.0){
             scaleFactor *= 1.5;
-            qDebug() << scaleFactor;
+            qDebug() << "Zoom: "<< scaleFactor;
         }
         else{
             qDebug() << "max zoom reached";
@@ -148,46 +217,92 @@ void Widget::wheelEvent(QWheelEvent * a){
     }
     else if(scaleFactor >= 0.3){
         scaleFactor /= 1.5;
+        qDebug() << "Zoom: "<< scaleFactor;
     }
 
     setMatrix(QMatrix(transform->m11()*scaleFactor,transform->m12()*scaleFactor, transform->m21()*scaleFactor, transform->m22()*scaleFactor,0,0));
-    texteUpdate();
 
-    if(!editionMode)
-        recompute();
+    if(!editionMode){
+        keepDetailLevel();
+        uniformiser();
+    }
 }
 
-void Widget::texteUpdate(){
-    QString lx = QString().number(endLogic.x(),'f',2);
-    QString ly = QString().number(endLogic.y(),'f',2);
-    //txt1->setPlainText(QString("Coordonnées logiques: (%1;%2)\nCoordonnées physiques: (%3;%4)\nZoom: %5  Nombre de lignes: %6").arg(lx).arg(ly).arg(end.x()).arg(end.y()).arg(scaleFactor).arg(scene->items().size()-3));
-}
 
 void Widget::restoreOriginalZoom(){
     setMatrix(QMatrix(matrix().m11()/scaleFactor,matrix().m12()/scaleFactor,matrix().m21()/scaleFactor,matrix().m22()/scaleFactor,0,0) );
     scaleFactor = 1.0;
 }
 
-void Widget::recompute()
+
+/**
+ * @brief Widget::keepDetailLevel
+ * Recalcule les lignes pour garder un certain niveau de détail
+ * qui dépend de l'attribut "limite"
+ */
+void Widget::keepDetailLevel()
 {
     QRectF viewRect =  mapToScene(this->rect()).boundingRect();
-    QList<QGraphicsItem *> b = scene->items(viewRect);
+    QList<QGraphicsItem *> visibleItems = scene->items(viewRect);
 
-    for(int i = 0; i < 2; i++){
-        QGraphicsLineItem* lineItem = (QGraphicsLineItem*)b.takeLast();
-        Segment seg = Segment(lineItem->line());
+    double deepest = visibleItems.first()->data(ItemDepth).toInt();
+    double highest = visibleItems.last()->data(ItemDepth).toInt();
 
-        fractal(7,seg);
+    double difference = deepest-highest;
+
+    if (difference < limite){
+        while( visibleItems.first()->data(ItemDepth).toInt() == deepest ){
+            visibleItems.first()->setData(ItemIsLeaf, false);
+            QGraphicsLineItem* lineItem = (QGraphicsLineItem*)visibleItems.takeFirst();
+            fractal(1,Segment(lineItem->line(),deepest));
+        }
+    }
+}
+
+/**
+ * @brief Widget::uniformise la profondeur de toute les lignes
+ */
+void Widget::uniformiser()
+{
+    QRectF viewRect =  mapToScene(this->rect()).boundingRect();
+    QList<QGraphicsItem *> visibleItems = scene->items(viewRect);
+
+    int deepest = visibleItems.first()->data(ItemDepth).toInt();
+    int highest = visibleItems.last()->data(ItemDepth).toInt();
+    int diff =  deepest - highest;
+
+    //suppression d'éléments pour éviter la surcharge
+    if(diff > limite){
+        while(deepest-highest > limite){
+            scene->removeItem(visibleItems.takeFirst());
+            deepest = visibleItems.first()->data(ItemDepth).toInt();
+        }
+        while(deepest-highest == limite){
+            visibleItems.takeFirst()->setData(ItemIsLeaf, true);
+            deepest = visibleItems.first()->data(ItemDepth).toInt();
+        }
     }
 
-    this->update();
+    //mise à niveau des items de profondeur inférieur à la profondeur max
+    //et qui n'ont pas d'enfants
+    int depth;
+    foreach(QGraphicsItem *visItem, visibleItems){
+        depth = visItem->data(ItemDepth).toInt();
+        if(depth < deepest){
+            if(visItem->data(ItemIsLeaf).toBool()){
+                visItem->setData(ItemIsLeaf, false);
+                QGraphicsLineItem* lineItem = (QGraphicsLineItem*)visItem;
+                fractal(deepest-depth,Segment(lineItem->line(),depth));
+            }
+        }
+    }
 }
 
 void Widget::changeMode()
 {
     if(editionMode){
         foreach(QGraphicsLineItem* lineItem, createdLines){
-            fractal(7,Segment(lineItem->line()));
+            fractal(limite,Segment(lineItem->line()));
         }
         this->setDragMode(QGraphicsView::ScrollHandDrag);
     }

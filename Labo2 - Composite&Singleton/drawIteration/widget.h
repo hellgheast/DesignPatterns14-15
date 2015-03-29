@@ -1,10 +1,11 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
-#include <QWidget>
 #include "segment.h"
-#include <QPainter>
+#include "node.h"
+#include "leafsegment.h"
 #include <QtWidgets>
+#include <QDialog>
 
 class Widget : public QGraphicsView
 {
@@ -14,13 +15,16 @@ public:
     Widget(QWidget *parent = 0);
     ~Widget();
 
+    static const int ItemDepth = 0;
+    static const int ItemIsLeaf = 1;
+
 protected:
 
     void mousePressEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent*);
     void mouseDoubleClickEvent(QMouseEvent *);
-    void wheelEvent(QWheelEvent *);    
+    void wheelEvent(QWheelEvent *);
 
 private:
     double scaleFactor;
@@ -28,7 +32,7 @@ private:
     QPointF endLogic;
     QPointF centerLogic;
     QGraphicsScene *scene;
-    QGraphicsTextItem* txt1;
+    void restoreOriginalZoom();
     QPen* pen;
     QAction* quitFullScreen;
     QAction* switchToEditionOrDisplay;
@@ -36,12 +40,15 @@ private:
     QGraphicsLineItem* tempLineEdition;
     QList<QGraphicsLineItem*> createdLines;
 
+    QList<Component*> components;
+    void fractal2(int, LeafSegment* noeudRacine);
+
     void fractal(int, Segment a);
-    void texteUpdate();
-    void restoreOriginalZoom();
+    int limite;
 
 public slots:
-    void recompute();
+    void keepDetailLevel();
+    void uniformiser();
     void changeMode();
 };
 
