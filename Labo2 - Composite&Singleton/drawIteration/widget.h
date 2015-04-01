@@ -23,33 +23,35 @@ protected:
     void mousePressEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent*);
-    void mouseDoubleClickEvent(QMouseEvent *);
     void wheelEvent(QWheelEvent *);
 
 private:
     double scaleFactor;
     QPointF startLogic;
     QPointF endLogic;
-    QPointF centerLogic;
     QGraphicsScene *scene;
     void restoreOriginalZoom();
     QPen* pen;
-    QAction* quitFullScreen;
     QAction* switchToEditionOrDisplay;
     bool editionMode;
     QGraphicsLineItem* tempLineEdition;
     QList<QGraphicsLineItem*> createdLines;
 
+    //2 fcts inutiles
     QList<Component*> components;
     void fractal2(int, LeafSegment* noeudRacine);
 
     void fractal(int, Segment a);
+    void createFractFromSegment(Segment segInitial);
     int limite;
 
 public slots:
     void keepDetailLevel();
     void uniformiser();
     void changeMode();
+
+signals:
+    void scaleFactorChanged(double zoom);
 };
 
 #endif // WIDGET_H

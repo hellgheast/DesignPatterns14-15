@@ -23,22 +23,14 @@ Widget::Widget(QWidget *parent)
     limite = 7;
 
     Segment segInitial = Segment(4650, 200, -850, -1900);
+    createFractFromSegment(segInitial);
+
     Segment segInitial2 = Segment(4650, 200, 8050, -1900);
+    createFractFromSegment(segInitial2);
 
-    pen->setColor(segInitial.getColor());
-    QGraphicsLineItem* segInitialLineItem = new QGraphicsLineItem(segInitial.getSegment());
-    segInitialLineItem->setPen(*pen);
-    scene->addItem(segInitialLineItem);
-    segInitial.setOwnLineItemPtr(segInitialLineItem);
-
-
-    fractal(limite,segInitial);
-    fractal(limite,segInitial2);
 
     this->setDragMode(QGraphicsView::ScrollHandDrag);
     this->setRenderHints(QPainter::Antialiasing);
-
-
 }
 
 Widget::~Widget()
@@ -105,6 +97,17 @@ void Widget::fractal(int profondeur, Segment firstRacine)
 
         --compteur;
     }
+}
+
+void Widget::createFractFromSegment(Segment segInitial)
+{
+    pen->setColor(segInitial.getColor());
+    QGraphicsLineItem* segInitialLineItem = new QGraphicsLineItem(segInitial.getSegment());
+    segInitialLineItem->setPen(*pen);
+    scene->addItem(segInitialLineItem);
+    segInitial.setOwnLineItemPtr(segInitialLineItem);
+
+    fractal(limite,segInitial);
 }
 
 /**
@@ -193,23 +196,14 @@ void Widget::mouseReleaseEvent(QMouseEvent * event)
 
 }
 
-void Widget::mouseDoubleClickEvent(QMouseEvent * event)
-{
-    if ( event->button() == Qt::LeftButton )
-    {        
-        QWidget* widgetParent = (QDialog*)parent();
-        widgetParent->showFullScreen();
 
-    }
-    QGraphicsView::mouseDoubleClickEvent(event);
-}
 
 void Widget::wheelEvent(QWheelEvent * a){
     QMatrix*  transform = new QMatrix(this->matrix().m11()/scaleFactor,this->matrix().m12()/scaleFactor,this->matrix().m21()/scaleFactor,this->matrix().m22()/scaleFactor,0,0);
     if(a->delta()>0.0){
         if( scaleFactor < 300.0){
             scaleFactor *= 1.5;
-            qDebug() << "Zoom: "<< scaleFactor;
+            emit(scaleFactorChanged(scaleFactor));
         }
         else{
             qDebug() << "max zoom reached";
@@ -217,7 +211,7 @@ void Widget::wheelEvent(QWheelEvent * a){
     }
     else if(scaleFactor >= 0.3){
         scaleFactor /= 1.5;
-        qDebug() << "Zoom: "<< scaleFactor;
+        emit(scaleFactorChanged(scaleFactor));
     }
 
     setMatrix(QMatrix(transform->m11()*scaleFactor,transform->m12()*scaleFactor, transform->m21()*scaleFactor, transform->m22()*scaleFactor,0,0));
@@ -232,6 +226,7 @@ void Widget::wheelEvent(QWheelEvent * a){
 void Widget::restoreOriginalZoom(){
     setMatrix(QMatrix(matrix().m11()/scaleFactor,matrix().m12()/scaleFactor,matrix().m21()/scaleFactor,matrix().m22()/scaleFactor,0,0) );
     scaleFactor = 1.0;
+    emit(scaleFactorChanged(scaleFactor));
 }
 
 
@@ -302,7 +297,7 @@ void Widget::changeMode()
 {
     if(editionMode){
         foreach(QGraphicsLineItem* lineItem, createdLines){
-            fractal(limite,Segment(lineItem->line()));
+            createFractFromSegment(Segment(lineItem->line()));
         }
         this->setDragMode(QGraphicsView::ScrollHandDrag);
     }

@@ -6,6 +6,7 @@
 #include <QAction>
 #include <QMenuBar>
 #include <QMessageBox>
+#include <QString>
 
 class MainWindow : public QMainWindow
 {
@@ -17,12 +18,20 @@ signals:
 
 public slots:
     void help();
+    void updateZoom(double);
 
 private:
     Widget* displayWidget;
     QAction* helpAction;
-    QMenu* helpMenu;
+    QAction* quitAction;
     QAction* quitFullScreen;
+
+    QMenu* mainMenu;
+
+    QString* helpText;
+
+protected:
+    void mouseDoubleClickEvent(QMouseEvent *);
 
 
 };

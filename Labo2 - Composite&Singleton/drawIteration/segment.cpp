@@ -65,10 +65,8 @@ int Segment::getDeepness() const
 
 QColor Segment::getColor() const
 {
-    int r = qMax(255-deepness*20,0);
-    int g = qMin(20*deepness,255);
-    int b = 0;
-    return QColor(r,g,b);
+    double facteur = (deepness%20)/20.0;
+    return QColor::fromHsvF(facteur,1,1);
 }
 
 QGraphicsLineItem *Segment::getOwnLineItemPtr() const
