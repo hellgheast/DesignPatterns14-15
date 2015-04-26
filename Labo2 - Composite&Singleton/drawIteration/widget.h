@@ -2,8 +2,7 @@
 #define WIDGET_H
 
 #include "segment.h"
-#include "node.h"
-#include "leafsegment.h"
+#include "fractal.h"
 #include <QtWidgets>
 #include <QDialog>
 
@@ -15,9 +14,6 @@ public:
     Widget(QWidget *parent = 0);
     ~Widget();
 
-    static const int ItemDepth = 0;
-    static const int ItemIsLeaf = 1;
-
 protected:
 
     void mousePressEvent(QMouseEvent *);
@@ -26,23 +22,22 @@ protected:
     void wheelEvent(QWheelEvent *);
 
 private:
+    //Zoom
     double scaleFactor;
-    QPointF startLogic;
-    QPointF endLogic;
-    QGraphicsScene *scene;
+    double zoomStep;
     void restoreOriginalZoom();
-    QPen* pen;
+
+    //Display/Edition mode
     QAction* switchToEditionOrDisplay;
     bool editionMode;
     QGraphicsLineItem* tempLineEdition;
-    QList<QGraphicsLineItem*> createdLines;
+    QPointF startLogic;
+    QPointF endLogic;
 
-    //2 fcts inutiles
-    QList<Component*> components;
-    void fractal2(int, LeafSegment* noeudRacine);
-
-    void fractal(int, Segment a);
-    void createFractFromSegment(Segment segInitial);
+    //Général
+    QGraphicsScene *scene;
+    QPen* pen;
+    Fractal * fractal;
     int limite;
 
 public slots:

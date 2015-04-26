@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     helpText = new QString();
-    helpText->append("Ctrl+m \t\t : swap to edit mode or return to display mode \nDouble click\t : swap to fullscreen mode (escape to leave)\nWheel \t\t : zoom\n\nEdition Mode :\n\tDraw line \t: LeftButton+drag\n\nDisplay Mode :\n\tMove \t : LeftButton+drag\n\tRotate \t : RightButton+drag\n\tRestore Original Zoom : MiddleButtonClick");
+    helpText->append("- Ctrl+m \t : swap to edit mode or return to display mode \n- Double click\t : swap to fullscreen mode (escape to leave)\n- Wheel \t\t : zoom\n- RightButton+drag \t: Rotate conterclockwise\n- MiddleButton Click \t: Restore original zoom\n- LeftButton+drag\n\tEdition mode\t: Draw start line\n\tDisplay Mode\t: Move");
 
     updateZoom(1);
 

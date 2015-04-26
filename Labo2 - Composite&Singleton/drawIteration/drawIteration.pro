@@ -13,18 +13,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
+    fractal.cpp \
     segment.cpp \
-    node.cpp \
-    leafsegment.cpp \
-    component.cpp \
     widget.cpp \
     mainwindow.cpp
 
 HEADERS  += \
+    fractal.h \
     segment.h \
-    node.h \
-    leafsegment.h \
-    component.h \
     widget.h \
     mainwindow.h
 
