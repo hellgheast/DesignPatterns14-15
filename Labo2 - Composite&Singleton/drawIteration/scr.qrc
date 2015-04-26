@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/roation.gif</file>
+        <file>resources/rotation.png</file>
+        <file>resources/rotation_cursor.gif</file>
+        <file>resources/images.png</file>
+    </qresource>
+</RCC>

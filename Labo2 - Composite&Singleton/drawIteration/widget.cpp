@@ -10,6 +10,9 @@ Widget::Widget(QWidget *parent)
     setScene(scene);
     setSceneRect(-13000,-10000,26000,20000);
 
+    QBrush b(Qt::black);
+    scene->setBackgroundBrush(b);
+
     switchToEditionOrDisplay = new QAction(this);
     switchToEditionOrDisplay->setShortcut(tr("Ctrl+M"));
     connect(switchToEditionOrDisplay, SIGNAL(triggered()), this, SLOT(changeMode()));
@@ -166,14 +169,26 @@ void Widget::mousePressEvent(QMouseEvent * event){
     else if( event->button() == Qt::MidButton){
         restoreOriginalZoom();
     }
+    else if( event->button() == Qt::RightButton){
+
+        this->setDragMode(QGraphicsView::NoDrag);
+
+        QPixmap pix(":/resources/rotation.png");
+        pix.setMask(QBitmap(":/resources/rotation.png"));
+        setCursor(QCursor(pix));
+
+    }
     QGraphicsView::mousePressEvent(event);
+
 }
 
 void Widget::mouseMoveEvent(QMouseEvent * event){
     if((event->buttons() == Qt::LeftButton && editionMode) ){
         endLogic = mapToScene(event->pos());
         scene->removeItem(tempLineEdition);
-        tempLineEdition = scene->addLine(startLogic.x(),startLogic.y(), endLogic.x(), endLogic.y());
+        pen->setColor(Qt::white);
+        pen->setWidth(10/scaleFactor);
+        tempLineEdition = scene->addLine(startLogic.x(),startLogic.y(), endLogic.x(), endLogic.y(), *pen);
     }
     else if(event->buttons()== Qt::RightButton){
          rotate(2);
@@ -186,12 +201,22 @@ void Widget::mouseReleaseEvent(QMouseEvent * event)
     if (event->button() == Qt::LeftButton){
         if (editionMode){
             createdLines.append(tempLineEdition);
+            pen->setWidth(0);
         }
         else{
             keepDetailLevel();
             uniformiser();
         }
     }
+    if (event->button() == Qt::RightButton){
+        if(editionMode){
+            setCursor(QCursor(Qt::CrossCursor));
+        }
+        else{
+            this->setDragMode(QGraphicsView::ScrollHandDrag);
+        }
+    }
+
     QGraphicsView::mouseReleaseEvent(event);
 
 }
@@ -201,7 +226,7 @@ void Widget::mouseReleaseEvent(QMouseEvent * event)
 void Widget::wheelEvent(QWheelEvent * a){
     QMatrix*  transform = new QMatrix(this->matrix().m11()/scaleFactor,this->matrix().m12()/scaleFactor,this->matrix().m21()/scaleFactor,this->matrix().m22()/scaleFactor,0,0);
     if(a->delta()>0.0){
-        if( scaleFactor < 300.0){
+        if( scaleFactor < 10000.0){
             scaleFactor *= 1.5;
             emit(scaleFactorChanged(scaleFactor));
         }

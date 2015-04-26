@@ -27,3 +27,6 @@ HEADERS  += \
     component.h \
     widget.h \
     mainwindow.h
+
+RESOURCES += \
+    scr.qrc
