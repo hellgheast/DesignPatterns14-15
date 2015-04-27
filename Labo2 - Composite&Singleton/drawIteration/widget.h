@@ -14,6 +14,8 @@ public:
     Widget(QWidget *parent = 0);
     ~Widget();
 
+    QAction *getSwitchToEditionOrDisplay() const;
+
 protected:
 
     void mousePressEvent(QMouseEvent *);
@@ -47,6 +49,8 @@ public slots:
 
 signals:
     void scaleFactorChanged(double zoom);
+    void zoomLimitReached(bool isMaxZoom);
+    void switchMode(bool toEditionMode);
 };
 
 #endif // WIDGET_H

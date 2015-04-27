@@ -13,7 +13,7 @@ Widget::Widget(QWidget *parent)
     QBrush b(Qt::black);
     scene->setBackgroundBrush(b);
 
-    switchToEditionOrDisplay = new QAction(this);
+    switchToEditionOrDisplay = new QAction(tr("Switch &mode"),this);
     switchToEditionOrDisplay->setShortcut(tr("Ctrl+M"));
     connect(switchToEditionOrDisplay, SIGNAL(triggered()), this, SLOT(changeMode()));
     this->addAction(switchToEditionOrDisplay);
@@ -30,10 +30,10 @@ Widget::Widget(QWidget *parent)
         fractal->createFractalFromSegment(segInitial,limite);
     }
 
-//    if( fractal = Fractal::getInstance()){
-//        fractal->setScene(scene);
-//        fractal->createFractalFromSegment(segInitial2,limite);
-//    }
+    if( (fractal = Fractal::getInstance()) ){
+        fractal->setScene(scene);
+        fractal->createFractalFromSegment(segInitial2,limite);
+    }
 
     this->setDragMode(QGraphicsView::ScrollHandDrag);
     this->setRenderHints(QPainter::Antialiasing);
@@ -42,6 +42,7 @@ Widget::Widget(QWidget *parent)
 Widget::~Widget()
 {
     fractal->deleteAllInstance();
+    delete(pen);
 }
 
 void Widget::mousePressEvent(QMouseEvent * event){
@@ -83,7 +84,9 @@ void Widget::mouseReleaseEvent(QMouseEvent * event)
 {
     if (event->button() == Qt::LeftButton){
         if (editionMode){
-            if( (fractal = Fractal::getInstance()) ){
+            Fractal* tempFractal;   //au cas ou Fractal::getInstance() retourne 0
+            if( (tempFractal = Fractal::getInstance()) ){
+                fractal = tempFractal;
                 fractal->setScene(scene);
                 Segment initialSeg = Segment(tempLineEdition->line());
                 fractal->createFractalFromSegment(initialSeg,limite);
@@ -119,20 +122,31 @@ void Widget::mouseReleaseEvent(QMouseEvent * event)
 void Widget::wheelEvent(QWheelEvent * a){
 
 
-    if(a->delta()>0.0){
-        if( scaleFactor < 10000.0){
+    if(a->delta()>0.0)
+    {
+        if( scaleFactor < 10000.0)
+        {
             scaleFactor *= zoomStep;
             scale(zoomStep, zoomStep);
             emit(scaleFactorChanged(scaleFactor));
         }
-        else{
-            qDebug() << "max zoom reached";
+        else
+        {
+            emit(zoomLimitReached(true));
         }
     }
-    else if(scaleFactor >= 0.3){
-        scaleFactor /= zoomStep;
-        scale(1/zoomStep, 1/zoomStep);
-        emit(scaleFactorChanged(scaleFactor));
+    else if(a->delta() < 0.0)
+    {
+        if(scaleFactor >= 0.3)
+        {
+            scaleFactor /= zoomStep;
+            scale(1/zoomStep, 1/zoomStep);
+            emit(scaleFactorChanged(scaleFactor));
+        }
+        else
+        {
+            emit(zoomLimitReached(false));
+        }
     }
 
 
@@ -149,6 +163,12 @@ void Widget::wheelEvent(QWheelEvent * a){
 void Widget::restoreOriginalZoom(){
     scale(1/scaleFactor,1/scaleFactor);
     emit(scaleFactorChanged(scaleFactor));
+}
+
+
+QAction *Widget::getSwitchToEditionOrDisplay() const
+{
+    return switchToEditionOrDisplay;
 }
 
 
@@ -178,7 +198,6 @@ void Widget::keepDetailLevel()
             }
         }
     }
-
 }
 
 /**
@@ -198,19 +217,17 @@ void Widget::uniformiser()
         //suppression d'éléments pour éviter la surcharge
         if(diff > limite)
         {
-            while(deepest-highest > limite)
+            while(!visibleItems.isEmpty() && deepest-highest > limite)
             {
                 scene->removeItem(visibleItems.takeFirst());
-//                if(!visibleItems.isEmpty())
-//                    break;
-                deepest = visibleItems.first()->data(Fractal::ItemDepth).toInt();
+                if(!visibleItems.isEmpty())
+                    deepest = visibleItems.first()->data(Fractal::ItemDepth).toInt();
             }
-            while(deepest-highest == limite)
+            while(!visibleItems.isEmpty() && deepest-highest == limite)
             {
                 visibleItems.takeFirst()->setData(Fractal::ItemIsLeaf, true);
-//                if(!visibleItems.isEmpty())
-//                    break;
-                deepest = visibleItems.first()->data(Fractal::ItemDepth).toInt();
+                if(!visibleItems.isEmpty())
+                    deepest = visibleItems.first()->data(Fractal::ItemDepth).toInt();
             }
         }
 
@@ -242,14 +259,17 @@ void Widget::changeMode()
     if(editionMode) //on est actuellement en mode edition et on veut changer vers Display
     {
         this->setDragMode(QGraphicsView::ScrollHandDrag);
+        emit(switchMode(false));
     }
     else            //on est actuellement en mode display et on veut changer vers Edition
     {
         Fractal::deleteAllInstance();
         scene->clear();
         update();
+        repaint();
         this->setDragMode(QGraphicsView::NoDrag);
         setCursor(QCursor(Qt::CrossCursor));
+        emit(switchMode(true));
     }
 
     editionMode = !editionMode;

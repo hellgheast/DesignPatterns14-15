@@ -13,18 +13,24 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 public:
     explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
 
 signals:
 
 public slots:
     void help();
+    void about();
     void updateZoom(double);
+    void zoomLimitReached(bool isMaxReached);
+    void switchMode(bool toEditionMode);
 
 private:
-    Widget* displayWidget;
-    QAction* helpAction;
-    QAction* quitAction;
-    QAction* quitFullScreen;
+    Widget *displayWidget;
+    QAction *helpAction;
+    QAction *aboutAct;
+    QAction *quitAction;
+    QAction *quitFullScreen;
+
 
     QMenu* mainMenu;
 
