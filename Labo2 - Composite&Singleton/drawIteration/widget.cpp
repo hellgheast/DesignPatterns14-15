@@ -20,19 +20,17 @@ Widget::Widget(QWidget *parent)
 
 
 
-    limite = 5;
+    limite = 7;
 
-    Segment segInitial = Segment(4650, 200, -850, -1900);
-    Segment segInitial2 = Segment(4650, 200, 8050, -1900);
+    QLineF segInitial = QLineF(4650, 200, -850, -1900);
+    QLineF segInitial2 = QLineF(4650, 200, 8050, -1900);
 
-    if( (fractal = Fractal::getInstance()) ){
-        fractal->setScene(scene);
-        fractal->createFractalFromSegment(segInitial,limite);
+    if( (fractal = Fractal::getInstance(segInitial,limite)) ){
+        fractal->drawFractal(scene);
     }
 
-    if( (fractal = Fractal::getInstance()) ){
-        fractal->setScene(scene);
-        fractal->createFractalFromSegment(segInitial2,limite);
+    if( (fractal = Fractal::getInstance(segInitial2,limite)) ){
+        fractal->drawFractal(scene);
     }
 
     this->setDragMode(QGraphicsView::ScrollHandDrag);
@@ -48,9 +46,8 @@ Widget::~Widget()
 void Widget::mousePressEvent(QMouseEvent * event){
     if(event->button() == Qt::LeftButton){
         if (editionMode){
-            pen->setColor(Qt::white);
             startLogic = mapToScene(event->pos());
-            tempLineEdition = scene->addLine(0,0,0,0,*pen);
+            tempLineEdition = scene->addLine(0,0,0,0,QPen(Qt::white));
         }
     }
     else if( event->button() == Qt::MidButton){
@@ -84,16 +81,14 @@ void Widget::mouseReleaseEvent(QMouseEvent * event)
 {
     if (event->button() == Qt::LeftButton){
         if (editionMode){
+            scene->removeItem(tempLineEdition);
+
             Fractal* tempFractal;   //au cas ou Fractal::getInstance() retourne 0
-            if( (tempFractal = Fractal::getInstance()) ){
+            if( (tempFractal = Fractal::getInstance(tempLineEdition->line(),limite)) ){
                 fractal = tempFractal;
-                fractal->setScene(scene);
-                Segment initialSeg = Segment(tempLineEdition->line());
-                fractal->createFractalFromSegment(initialSeg,limite);
+                fractal->drawFractal(scene);
             }
-            else{
-                scene->removeItem(tempLineEdition);
-            }
+            delete(tempLineEdition);
         }
         else{
             keepDetailLevel();
@@ -178,35 +173,35 @@ QAction *Widget::getSwitchToEditionOrDisplay() const
  */
 void Widget::keepDetailLevel()
 {
-    QRectF viewRect =  mapToScene(this->rect()).boundingRect();
-    QList<QGraphicsItem *> visibleItems = scene->items(viewRect);
+//    QRectF viewRect =  mapToScene(this->rect()).boundingRect();
+//    QList<QGraphicsItem *> visibleItems = scene->items(viewRect);
 
-    if(!visibleItems.isEmpty())
-    {
-        double deepest = visibleItems.first()->data(Fractal::ItemDepth).toInt();
-        double highest = visibleItems.last()->data(Fractal::ItemDepth).toInt();
+//    if(!visibleItems.isEmpty())
+//    {
+//        double deepest = visibleItems.first()->data(Fractal::ItemDepth).toInt();
+//        double highest = visibleItems.last()->data(Fractal::ItemDepth).toInt();
 
-        double difference = deepest-highest;
+//        double difference = deepest-highest;
 
-        if(difference < limite)
-        {
-//            foreach(QGraphicsItem *visItem, visibleItems){
-//                if(visItem->data(Fractal::ItemDepth).toInt() == deepest)
-//                {
-//                    visibleItems.first()->setData(Fractal::ItemIsLeaf, false);
-//                    QGraphicsLineItem* lineItem = (QGraphicsLineItem*)visibleItems.takeFirst();
-//                    fractal->createFractal(Segment(lineItem->line(),deepest),limite-difference);
-//                }
+//        if(difference < limite)
+//        {
+////            foreach(QGraphicsItem *visItem, visibleItems){
+////                if(visItem->data(Fractal::ItemDepth).toInt() == deepest)
+////                {
+////                    visibleItems.first()->setData(Fractal::ItemIsLeaf, false);
+////                    QGraphicsLineItem* lineItem = (QGraphicsLineItem*)visibleItems.takeFirst();
+////                    fractal->createFractal(Segment(lineItem->line(),deepest),limite-difference);
+////                }
+////            }
+
+//            while(!visibleItems.isEmpty() && visibleItems.first()->data(Fractal::ItemDepth).toInt() == deepest )
+//            {
+//                visibleItems.first()->setData(Fractal::ItemIsLeaf, false);
+//                QGraphicsLineItem* lineItem = (QGraphicsLineItem*)visibleItems.takeFirst();
+//                fractal->createFractal(Segment(lineItem->line(),deepest),limite-difference);
 //            }
-
-            while(!visibleItems.isEmpty() && visibleItems.first()->data(Fractal::ItemDepth).toInt() == deepest )
-            {
-                visibleItems.first()->setData(Fractal::ItemIsLeaf, false);
-                QGraphicsLineItem* lineItem = (QGraphicsLineItem*)visibleItems.takeFirst();
-                fractal->createFractal(Segment(lineItem->line(),deepest),limite-difference);
-            }
-        }
-    }
+//        }
+//    }
 }
 
 /**
@@ -214,74 +209,74 @@ void Widget::keepDetailLevel()
  */
 void Widget::uniformiser()
 {
-    QRectF viewRect =  mapToScene(this->rect()).boundingRect();
-    QList<QGraphicsItem *> visibleItems = scene->items(viewRect);
+//    QRectF viewRect =  mapToScene(this->rect()).boundingRect();
+//    QList<QGraphicsItem *> visibleItems = scene->items(viewRect);
 
-    if(!visibleItems.isEmpty())
-    {
-        int deepest = visibleItems.first()->data(Fractal::ItemDepth).toInt();
-        int highest = visibleItems.last()->data(Fractal::ItemDepth).toInt();
-        int diff =  deepest - highest;
-        int depth;
+//    if(!visibleItems.isEmpty())
+//    {
+//        int deepest = visibleItems.first()->data(Fractal::ItemDepth).toInt();
+//        int highest = visibleItems.last()->data(Fractal::ItemDepth).toInt();
+//        int diff =  deepest - highest;
+//        int depth;
 
-        //suppression d'éléments pour éviter la surcharge
-        if(diff > limite)
-        {
-//            foreach(QGraphicsItem *visItem, visibleItems)
+//        //suppression d'éléments pour éviter la surcharge
+//        if(diff > limite)
+//        {
+////            foreach(QGraphicsItem *visItem, visibleItems)
+////            {
+////                depth = visItem->data(Fractal::ItemDepth).toInt();
+////                if ( (depth - highest) > limite)
+////                {
+////                    scene->removeItem(visibleItems.takeFirst());
+////                }
+////                if ( (depth - highest) == limite)
+////                {
+////                    visItem->setData(Fractal::ItemIsLeaf, true);
+////                }
+
+////                //mise à niveau des items de profondeur inférieur à la profondeur max
+////                //et qui n'ont pas d'enfants
+////                if(depth < deepest)
+////                {
+////                    if(visItem->data(Fractal::ItemIsLeaf).toBool())
+////                    {
+////                        visItem->setData(Fractal::ItemIsLeaf, false);
+////                        QGraphicsLineItem* lineItem = (QGraphicsLineItem*)visItem;
+////                        fractal->createFractal(Segment(lineItem->line(),depth),deepest-depth);
+////                    }
+////                }
+////            }
+
+//            while(!visibleItems.isEmpty() && deepest-highest > limite)
 //            {
-//                depth = visItem->data(Fractal::ItemDepth).toInt();
-//                if ( (depth - highest) > limite)
-//                {
-//                    scene->removeItem(visibleItems.takeFirst());
-//                }
-//                if ( (depth - highest) == limite)
-//                {
-//                    visItem->setData(Fractal::ItemIsLeaf, true);
-//                }
+//                scene->removeItem(visibleItems.takeFirst());
+//                if(!visibleItems.isEmpty())
+//                    deepest = visibleItems.first()->data(Fractal::ItemDepth).toInt();
+//            }
+//            while(!visibleItems.isEmpty() && deepest-highest == limite)
+//            {
+//                visibleItems.takeFirst()->setData(Fractal::ItemIsLeaf, true);
+//                if(!visibleItems.isEmpty())
+//                    deepest = visibleItems.first()->data(Fractal::ItemDepth).toInt();
+//            }
+//        }
 
-//                //mise à niveau des items de profondeur inférieur à la profondeur max
-//                //et qui n'ont pas d'enfants
-//                if(depth < deepest)
+
+
+//        foreach(QGraphicsItem *visItem, visibleItems)
+//        {
+//            depth = visItem->data(Fractal::ItemDepth).toInt();
+//            if(depth < deepest)
+//            {
+//                if(visItem->data(Fractal::ItemIsLeaf).toBool())
 //                {
-//                    if(visItem->data(Fractal::ItemIsLeaf).toBool())
-//                    {
-//                        visItem->setData(Fractal::ItemIsLeaf, false);
-//                        QGraphicsLineItem* lineItem = (QGraphicsLineItem*)visItem;
-//                        fractal->createFractal(Segment(lineItem->line(),depth),deepest-depth);
-//                    }
+//                    visItem->setData(Fractal::ItemIsLeaf, false);
+//                    QGraphicsLineItem* lineItem = (QGraphicsLineItem*)visItem;
+//                    fractal->createFractal(Segment(lineItem->line(),depth),deepest-depth);
 //                }
 //            }
-
-            while(!visibleItems.isEmpty() && deepest-highest > limite)
-            {
-                scene->removeItem(visibleItems.takeFirst());
-                if(!visibleItems.isEmpty())
-                    deepest = visibleItems.first()->data(Fractal::ItemDepth).toInt();
-            }
-            while(!visibleItems.isEmpty() && deepest-highest == limite)
-            {
-                visibleItems.takeFirst()->setData(Fractal::ItemIsLeaf, true);
-                if(!visibleItems.isEmpty())
-                    deepest = visibleItems.first()->data(Fractal::ItemDepth).toInt();
-            }
-        }
-
-
-
-        foreach(QGraphicsItem *visItem, visibleItems)
-        {
-            depth = visItem->data(Fractal::ItemDepth).toInt();
-            if(depth < deepest)
-            {
-                if(visItem->data(Fractal::ItemIsLeaf).toBool())
-                {
-                    visItem->setData(Fractal::ItemIsLeaf, false);
-                    QGraphicsLineItem* lineItem = (QGraphicsLineItem*)visItem;
-                    fractal->createFractal(Segment(lineItem->line(),depth),deepest-depth);
-                }
-            }
-        }
-    }
+//        }
+//    }
 }
 
 /**
@@ -299,6 +294,7 @@ void Widget::changeMode()
     {
         Fractal::deleteAllInstance();
         scene->clear();
+
         update();
         repaint();
         this->setDragMode(QGraphicsView::NoDrag);
