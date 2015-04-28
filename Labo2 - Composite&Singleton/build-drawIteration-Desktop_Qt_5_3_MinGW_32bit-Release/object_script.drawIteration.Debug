@@ -1,0 +1,14 @@
+INPUT(
+./debug/main.o
+./debug/fractal.o
+./debug/segment.o
+./debug/node.o
+./debug/leafsegment.o
+./debug/component.o
+./debug/widget.o
+./debug/mainwindow.o
+./debug/qrc_scr.o
+./debug/moc_fractal.o
+./debug/moc_widget.o
+./debug/moc_mainwindow.o
+);
