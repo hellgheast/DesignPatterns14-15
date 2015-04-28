@@ -1,7 +1,6 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
-#include "segment.h"
 #include "fractal.h"
 #include <QtWidgets>
 #include <QDialog>

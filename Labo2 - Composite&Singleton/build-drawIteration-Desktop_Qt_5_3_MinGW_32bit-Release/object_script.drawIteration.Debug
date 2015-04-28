@@ -1,7 +1,6 @@
 INPUT(
 ./debug/main.o
 ./debug/fractal.o
-./debug/segment.o
 ./debug/widget.o
 ./debug/mainwindow.o
 ./debug/abstractfractal.o

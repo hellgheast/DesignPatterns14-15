@@ -46,8 +46,9 @@ Widget::~Widget()
 void Widget::mousePressEvent(QMouseEvent * event){
     if(event->button() == Qt::LeftButton){
         if (editionMode){
+            pen->setColor(Qt::white);
             startLogic = mapToScene(event->pos());
-            tempLineEdition = scene->addLine(0,0,0,0,QPen(Qt::white));
+            tempLineEdition = scene->addLine(0,0,0,0,*pen);
         }
     }
     else if( event->button() == Qt::MidButton){

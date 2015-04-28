@@ -1,7 +1,6 @@
 #ifndef FRACTAL_H
 #define FRACTAL_H
 
-#include "segment.h"
 #include "compositefractal.h"
 #include "leaffractal.h"
 #include <QGraphicsScene>
