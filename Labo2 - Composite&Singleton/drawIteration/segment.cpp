@@ -5,12 +5,12 @@ Segment::Segment()
 
 }
 
-Segment::Segment(double _x1, double _y1, double _x2, double _y2, int _deepness, QGraphicsLineItem* _qgli): deepness(_deepness), ownLineItemPtr(_qgli)
+Segment::Segment(double _x1, double _y1, double _x2, double _y2, int _deepness): deepness(_deepness)
 {
     segment = QLineF(_x1,_y1,_x2,_y2);
 }
 
-Segment::Segment(QLineF _segment, int _deepness, QGraphicsLineItem* _qgli): segment(_segment), deepness(_deepness), ownLineItemPtr(_qgli)
+Segment::Segment(QLineF _segment, int _deepness): segment(_segment), deepness(_deepness)
 {
 
 }
@@ -21,13 +21,13 @@ QList<Segment> Segment::iterer(){
     double lenY = (segment.y2() - segment.y1()) / 2;
 
     //ligne1
-    result.append( Segment(segment.x2(), segment.y2(), segment.x2() + lenX, segment.y2() + lenY, deepness+1, ownLineItemPtr) );
+    result.append( Segment(segment.x2(), segment.y2(), segment.x2() + lenX, segment.y2() + lenY, deepness+1) );
 
     //ligne2 "droite"
-    result.append( Segment(segment.x2(), segment.y2(), segment.x2() + lenY, segment.y2() - lenX, deepness+1, ownLineItemPtr) );
+    result.append( Segment(segment.x2(), segment.y2(), segment.x2() + lenY, segment.y2() - lenX, deepness+1) );
 
     //ligne3 "gauche"
-    result.append( Segment(segment.x2(), segment.y2(), segment.x2() - lenY, segment.y2() + lenX, deepness+1, ownLineItemPtr) );
+    result.append( Segment(segment.x2(), segment.y2(), segment.x2() - lenY, segment.y2() + lenX, deepness+1) );
 
     return result;
 }
@@ -67,14 +67,4 @@ QColor Segment::getColor() const
 {
     double facteur = (deepness%20)/20.0;
     return QColor::fromHsvF(facteur,1,1);
-}
-
-QGraphicsLineItem *Segment::getOwnLineItemPtr() const
-{
-    return ownLineItemPtr;
-}
-
-void Segment::setOwnLineItemPtr(QGraphicsLineItem *value)
-{
-    ownLineItemPtr = value;
 }

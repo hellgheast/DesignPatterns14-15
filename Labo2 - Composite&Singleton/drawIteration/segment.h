@@ -10,8 +10,8 @@ class Segment : QLineF
 {
 public:
     Segment();
-    Segment(double _x1, double _y1, double _x2, double _y2, int _deepness = 0, QGraphicsLineItem* _qgli = NULL);
-    Segment(QLineF _segment, int _deepness = 0, QGraphicsLineItem* _qgli = NULL);
+    Segment(double _x1, double _y1, double _x2, double _y2, int _deepness = 0);
+    Segment(QLineF _segment, int _deepness = 0);
     QList<Segment> iterer();
 
     double getX1() const;
@@ -26,15 +26,11 @@ public:
 
     int getDeepness() const;
 
-    QColor getColor() const;    
-
-    QGraphicsLineItem *getOwnLineItemPtr() const;
-    void setOwnLineItemPtr(QGraphicsLineItem *value);
+    QColor getColor() const;
 
 private:
     QLineF segment;
     int deepness;
-    QGraphicsLineItem* ownLineItemPtr;
 };
 
 #endif // SEGMENT_H

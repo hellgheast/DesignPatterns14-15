@@ -3,8 +3,8 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    this->resize(800,600);
-    setWindowTitle("DP - EQUIPE I - LABO 2 / Fractal ");
+    this->resize(1200,800);
+    setWindowTitle("Fractal - DISPLAY Mode");
 
     displayWidget = new Widget(this);
     this->setCentralWidget(displayWidget);
@@ -19,6 +19,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(quitFullScreen,SIGNAL(triggered()),this,SLOT(showNormal()));
     this->addAction(quitFullScreen);
 
+    aboutAct = new QAction(tr("&About"),this);
+    connect(aboutAct,SIGNAL(triggered()),this, SLOT(about()));
+
     quitAction = new QAction(tr("&Quit"),this);
     quitAction->setShortcut(QKeySequence::Quit);
     connect(quitAction,SIGNAL(triggered()),qApp,SLOT(quit()));
@@ -26,8 +29,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     mainMenu = new QMenu("MainMenu",this);
+    mainMenu->addAction(displayWidget->getSwitchToEditionOrDisplay());
     mainMenu->addAction(helpAction);
     mainMenu->addAction(quitFullScreen);
+    mainMenu->addSeparator();
+    mainMenu->addAction(aboutAct);
     mainMenu->addSeparator();
     mainMenu->addAction(quitAction);
 
@@ -35,11 +41,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     helpText = new QString();
-    helpText->append("- Ctrl+m \t : swap to edit mode or return to display mode \n- Double click\t : swap to fullscreen mode (escape to leave)\n- Wheel \t\t : zoom\n- RightButton+drag \t: Rotate conterclockwise\n- MiddleButton Click \t: Restore original zoom\n- LeftButton+drag\n\tEdition mode\t: Draw start line\n\tDisplay Mode\t: Move");
+    helpText->append("Shortcuts\t\t|  Effects\n------------------------------------------------------------------------------\n- ctrl+m\t\t  switch to Edition mode or return to Display mode\n- esc\t\t\t  leave fullscreen mode\n\n\nMouse actions \t|  Effects\n------------------------------------------------------------------------------\n- double click\t\t  switch to fullscreen mode or leave it\n- middleButton click \t  restore original zoom\n- wheel \t\t  zoom\n- rightButton+drag \t  rotate conterclockwise\n- leftButton+drag\n   a) Edition mode\t  draw 1st fractal line (max 5 fractals)\n   b) Display Mode\t  move around fractals");
 
     updateZoom(1);
 
     connect(displayWidget, SIGNAL(scaleFactorChanged(double)), this, SLOT(updateZoom(double)));
+    connect(displayWidget, SIGNAL(zoomLimitReached(bool)), this, SLOT(zoomLimitReached(bool)));
+    connect(displayWidget, SIGNAL(switchMode(bool)),this,SLOT(switchMode(bool)));
+}
+
+MainWindow::~MainWindow()
+{
+    delete(helpText);
 }
 
 void MainWindow::help()
@@ -47,15 +60,36 @@ void MainWindow::help()
     QMessageBox::information(this,tr("Help using this app"), *helpText);
 }
 
+void MainWindow::about()
+{
+    QMessageBox::about(this,"About this project","Design Pattern - EQUIPE I :\n -Bandelier Matthieu\n -Gonin Nicolas \n -Luy Karim\n\nLABO 2 - Singleton/Composite");
+}
+
 void MainWindow::updateZoom(double zoom)
 {
     statusBar()->showMessage(QString("Zoom : x%1").arg(QString::number(zoom,'f',2)));
+}
+
+void MainWindow::zoomLimitReached(bool isMaxReached)
+{
+    QMessageBox::warning(this,"! Zoom limit !", isMaxReached?"Max zoom reached":"Min zoom reached");
+}
+
+void MainWindow::switchMode(bool toEditionMode)
+{
+    QString title = QString("Fractal - ");
+    setWindowTitle(title.append(toEditionMode?"EDITION Mode":"DISPLAY Mode"));
 }
 
 void MainWindow::mouseDoubleClickEvent(QMouseEvent * event)
 {
     if ( event->button() == Qt::LeftButton )
     {
-        showFullScreen();
+        if(isFullScreen()){
+            showNormal();
+        }
+        else{
+            showFullScreen();
+        }
     }
 }
