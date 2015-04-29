@@ -1,0 +1,12 @@
+INPUT(
+./release/main.o
+./release/fractal.o
+./release/widget.o
+./release/mainwindow.o
+./release/abstractfractal.o
+./release/leaffractal.o
+./release/compositefractal.o
+./release/qrc_scr.o
+./release/moc_widget.o
+./release/moc_mainwindow.o
+);

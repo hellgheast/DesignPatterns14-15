@@ -10,7 +10,7 @@ class Widget : public QGraphicsView
     Q_OBJECT
 
 public:
-    Widget(QWidget *parent = 0);
+    Widget(int _deepness, QWidget *parent = 0);
     ~Widget();
 
     QAction *getSwitchToEditionOrDisplay() const;
@@ -19,7 +19,7 @@ protected:
 
     void mousePressEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);
-    void mouseReleaseEvent(QMouseEvent*);
+    void mouseReleaseEvent(QMouseEvent *);
     void wheelEvent(QWheelEvent *);
 
 private:
@@ -28,23 +28,22 @@ private:
     double zoomStep;
     void restoreOriginalZoom();
 
-    //Display/Edition mode
-    QAction* switchToEditionOrDisplay;
+    //Explore/Edition mode
     bool editionMode;
-    QGraphicsLineItem* tempLineEdition;
+    QGraphicsLineItem *tempLineEdition;
     QPointF startLogic;
     QPointF endLogic;
 
     //Général
     QGraphicsScene *scene;
-    QPen* pen;
-    Fractal * fractal;
-    int limite;
+    QPen *pen;
+    Fractal *fractal;
+    int deepness;
+    QList<QLineF> editionLines;
 
 public slots:
-    void keepDetailLevel();
-    void uniformiser();
     void changeMode();
+    void redraw(int newDeepness);
 
 signals:
     void scaleFactorChanged(double zoom);

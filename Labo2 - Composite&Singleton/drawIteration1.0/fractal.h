@@ -4,7 +4,7 @@
 #include "compositefractal.h"
 #include "leaffractal.h"
 #include <QGraphicsScene>
-#include <QtWidgets>
+#include <QQueue>
 #include <QList>
 
 
@@ -25,16 +25,11 @@ public:
     void drawFractal(QGraphicsScene *& scene);
     //--------
 
-//    void createFractalFromSegment(Segment segInitial, int deepness);
-//    void createFractal(Segment seg, int deepness);
-
-//    QGraphicsScene *getScene() const;
-//    void setScene(QGraphicsScene *value);
 
 private:
     Fractal(QLineF segment, int profondeur);
     static QList<Fractal*> listFractal;
-    static const int N_MAX = 5;
+    static const int N_MAX = 3;
     QGraphicsScene * scene;
 
 
