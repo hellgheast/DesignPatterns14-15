@@ -17,6 +17,8 @@
 #include "Apple.h"
 #include "Banana.h"
 #include "Strawberry.h"
+#include "Orange.h"
+#include "Peach.h"
 
 #include "Decorator.h"
 #include "Star.h"
@@ -57,12 +59,15 @@ void Order::addDecoration(Fruit ** fruit)
 {
     char choix = ' ';
     do {
-        cout << "Quelle decoration voulez-vous ajouter : " << endl
-             << " a : Etoile" << endl
-             << " b : diese" << endl
-             << " c : signe egal" << endl
-             << " q : Rien d'autre" << endl
-             << "Votre choix : ";
+        system("cls");
+        cout << " --------------------------------------------- "<<endl
+             << "| What do you want to decorate the fruit with? |" << endl
+             << " --------------------------------------------- " <<endl
+             << "\ta : Star\t(*)" << endl
+             << "\tb : Sharp\t(#)" << endl
+             << "\tc : Equal Sign\t(=)" << endl
+             << "\tq : Nothing else" << endl
+             << "Your choice : ";
         string input;
         getline(cin, input);
         choix = input[0];
@@ -83,7 +88,7 @@ void Order::addDecoration(Fruit ** fruit)
 
                 break;
             default:
-                cout << "Erreur de saisie !";
+                cout << "Incorrect input !";
         }
         cout << endl << endl;
     } while (choix != 'q' && choix != 'Q');
@@ -93,12 +98,16 @@ void Order::addInto(Basket * basket)
 {
     char choix = ' ';
     do {
-        cout << "What do you want to add? : " << endl
-             << " a : Strawberry" << endl
-             << " b : Apple" << endl
-             << " c : Banana" << endl
-             << " d : Basket" << endl
-             << " q : Nothing else" << endl
+        cout << " --------------------------- "<<endl
+             << "| What do you want to add? : |" << endl
+             << " --------------------------- "<<endl
+             << "\ta : Strawberry" << endl
+             << "\tb : Apple"  << endl
+             << "\tc : Banana" << endl
+             << "\td : Orange" << endl
+             << "\te : Peach" << endl
+             << "\tf : a new basket" << endl
+             << "\tq : Nothing else" << endl
              << "Your choice : ";
         string input;
         getline(cin, input);
@@ -120,6 +129,14 @@ void Order::addInto(Basket * basket)
                 break;
             case 'd':
             case 'D':
+                nouveau = new Orange();
+                break;
+            case 'e':
+            case 'E':
+                nouveau = new Peach();
+                break;
+            case 'f':
+            case 'F':
             {
                 Basket * sub = new Basket();
                 nouveau = sub;
@@ -131,7 +148,7 @@ void Order::addInto(Basket * basket)
 
                 break;
             default:
-                cout << "Wrong entry!";
+                cout << "Incorrect input !";
         }
         cout << endl << endl;
 

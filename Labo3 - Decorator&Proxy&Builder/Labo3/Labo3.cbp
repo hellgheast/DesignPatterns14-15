@@ -32,12 +32,38 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="AbstractFruits.cpp" />
-		<Unit filename="AbstractFruits.h" />
+		<Unit filename="Apple.cpp" />
+		<Unit filename="Apple.h" />
+		<Unit filename="Banana.cpp" />
+		<Unit filename="Banana.h" />
+		<Unit filename="Basket.cpp" />
+		<Unit filename="Basket.h" />
+		<Unit filename="Decorator.cpp" />
+		<Unit filename="Decorator.h" />
+		<Unit filename="Equal.cpp" />
+		<Unit filename="Equal.h" />
 		<Unit filename="Fruit.cpp" />
 		<Unit filename="Fruit.h" />
-		<Unit filename="PanierDeFruits.cpp" />
-		<Unit filename="PanierDeFruits.h" />
+		<Unit filename="Orange.cpp" />
+		<Unit filename="Orange.h" />
+		<Unit filename="Order.cpp" />
+		<Unit filename="Order.h" />
+		<Unit filename="OrderState.cpp" />
+		<Unit filename="OrderState.h" />
+		<Unit filename="Paid.cpp" />
+		<Unit filename="Paid.h" />
+		<Unit filename="Peach.cpp" />
+		<Unit filename="Peach.h" />
+		<Unit filename="Sent.cpp" />
+		<Unit filename="Sent.h" />
+		<Unit filename="Sharp.cpp" />
+		<Unit filename="Sharp.h" />
+		<Unit filename="Star.cpp" />
+		<Unit filename="Star.h" />
+		<Unit filename="Strawberry.cpp" />
+		<Unit filename="Strawberry.h" />
+		<Unit filename="Waiting.cpp" />
+		<Unit filename="Waiting.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
