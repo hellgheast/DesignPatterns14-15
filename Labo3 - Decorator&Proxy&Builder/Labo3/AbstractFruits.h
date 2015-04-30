@@ -7,8 +7,8 @@ class AbstractFruits
     public:
         AbstractFruits();
         virtual ~AbstractFruits();
-        virtual AfficherFruits() = 0;
-        virtual AvecOuSansPepin() = 0;
+        virtual void AfficherFruits() = 0;
+        virtual bool AvecOuSansPepin() = 0;
     protected:
     private:
 };

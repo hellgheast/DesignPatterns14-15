@@ -7,7 +7,7 @@ class PanierDeFruits : public AbstractFruits
     public:
         PanierDeFruits(list<Fruit>);
         virtual ~PanierDeFruits();
-        virtual AfficherFruits();
+        virtual void AfficherFruits();
     protected:
     private:
         list<AbstractFruits> Fruits;

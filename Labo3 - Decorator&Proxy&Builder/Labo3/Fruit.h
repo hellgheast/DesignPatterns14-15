@@ -1,17 +1,27 @@
+/*
+	Design Patterns
+	Labo3 : Panier de fruits avec State, Composite, Decorator
+	Authors :
+        - Karim Luy
+        - Nicolas Gonin
+        - Mathieu Bandelier
+	Equipe1
+************************************************************************
+*/
 #ifndef FRUIT_H
 #define FRUIT_H
 
 
-class Fruit : public PanierDeFruits
+class Fruit
 {
     public:
-        Fruit(string, bool);
-        virtual ~Fruit();
-        void AfficherFruit() {cout<<nomDuFruit;}
+        Fruit() {}
+        virtual ~Fruit() {}
+        virtual bool hasPip() const = 0;
+        virtual void showFruit() const = 0;
     protected:
+        void showPip() const;
     private:
-        string nomDuFruit;
-        bool pepin;
 };
 
 #endif // FRUIT_H

@@ -1,12 +1,24 @@
+/*
+	Design Patterns
+	Labo3 : Panier de fruits avec State, Composite, Decorator
+	Authors :
+        - Karim Luy
+        - Nicolas Gonin
+        - Mathieu Bandelier
+	Equipe1
+************************************************************************
+*/
 #include "Fruit.h"
+#include <iostream>
 
-Fruit::Fruit(string _nom, bool _pepin)
-{
-    this.nomDuFruit = _nom;
-    this.pepin = _pepin;
-}
+using namespace std;
 
-Fruit::~Fruit()
-{
-    //dtor
+void Fruit::showPip() const{
+
+    if(this->hasPip()){
+        cout << " - contains seeds";
+    }
+    else {
+        cout << " - doesn't contain seeds";
+    }
 }
