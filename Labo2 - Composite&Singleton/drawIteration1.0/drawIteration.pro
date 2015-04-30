@@ -14,15 +14,19 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     fractal.cpp \
-    segment.cpp \
     widget.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    abstractfractal.cpp \
+    leaffractal.cpp \
+    compositefractal.cpp
 
 HEADERS  += \
     fractal.h \
-    segment.h \
     widget.h \
-    mainwindow.h
+    mainwindow.h \
+    abstractfractal.h \
+    leaffractal.h \
+    compositefractal.h
 
 RESOURCES += \
     scr.qrc

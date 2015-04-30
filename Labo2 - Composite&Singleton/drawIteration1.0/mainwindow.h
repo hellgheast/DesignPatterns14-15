@@ -5,6 +5,7 @@
 #include "widget.h"
 #include <QAction>
 #include <QMenuBar>
+#include <QToolBar>
 #include <QMessageBox>
 #include <QString>
 
@@ -30,9 +31,16 @@ private:
     QAction *aboutAct;
     QAction *quitAction;
     QAction *quitFullScreen;
+    QAction *modeAction;
+    QLabel *labelSlider, *labelSliderCount;
+    QSlider *slider;
 
 
-    QMenu* mainMenu;
+
+    QMenu *mainMenu;
+    QToolBar *toolBar;
+
+
 
     QString* helpText;
 
