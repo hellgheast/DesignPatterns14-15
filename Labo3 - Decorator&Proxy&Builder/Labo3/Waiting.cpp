@@ -18,7 +18,7 @@ void Waiting::processOrder(Order* order)
 {
     cout << endl << endl << "-> The order is ready and awaiting payment." << endl;
     while(!confirmation("Would you like to pay the order?")){
-        cout << "\/!\\The order is still awaiting payment! \/!\\" << endl;
+        cout << "\\The order is still awaiting payment!\\" << endl;
     }
     //changes the order state to paid
     order->changeState(new Paid());

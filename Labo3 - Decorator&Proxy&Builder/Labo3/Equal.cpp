@@ -14,9 +14,8 @@
 
 using namespace std;
 
-Equal::Equal(Fruit * fruit) : Decorator(fruit)
+Equal::Equal(Fruit* fruit) : Decorator((Fruit*)fruit)
 {
-
 }
 
 char Equal::getDecoration() const

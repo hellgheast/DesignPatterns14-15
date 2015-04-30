@@ -9,7 +9,7 @@
 ************************************************************************
 */
 #include <iostream>
-
+#include <stdlib.h>
 #include "Order.h"
 #include "Waiting.h"
 
@@ -71,27 +71,30 @@ void Order::addDecoration(Fruit ** fruit)
         string input;
         getline(cin, input);
         choix = input[0];
-        switch (choix)
+        if(choix=='a' || choix == 'A')
+            {
+
+            Star* starDecorator = new Star(*fruit);
+            (void) starDecorator;
+            delete(starDecorator);
+            }
+        else if(choix=='b' || choix == 'B')
         {
-            case 'a':
-            case 'A': *fruit = new Star(*fruit);
-                break;
-            case 'b':
-            case 'B': *fruit = new Sharp(*fruit);
-                break;
-            case 'c':
-            case 'C': *fruit = new Equal(*fruit);
-                break;
-
-            case 'q':
-            case 'Q':
-
-                break;
-            default:
-                cout << "Incorrect input !";
+            Sharp* sharpDecorator = new Sharp(*fruit);
+            (void) sharpDecorator;
+            delete(sharpDecorator);
         }
+        else if(choix=='c' || choix == 'C')
+        {
+            Equal* equalDecorator = new Equal(*fruit);
+            (void)equalDecorator;
+            delete(equalDecorator);
+        }
+        else
+                cout << "Incorrect input !";
         cout << endl << endl;
     } while (choix != 'q' && choix != 'Q');
+
 }
 
 void Order::addInto(Basket * basket)

@@ -1,9 +1,8 @@
 #ifndef EQUAL_H
 #define EQUAL_H
 
-
+#include "Fruit.h"
 #include "Decorator.h"
-
 class Equal : public Decorator
 {
     public:

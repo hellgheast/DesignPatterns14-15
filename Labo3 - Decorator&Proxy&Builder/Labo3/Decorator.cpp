@@ -1,8 +1,8 @@
 #include "Decorator.h"
 
-Decorator::Decorator()
+Decorator::Decorator(Fruit* fruit)
 {
-    //ctor
+    this->fruit = fruit;
 }
 
 Decorator::~Decorator()
