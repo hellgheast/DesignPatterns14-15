@@ -1,4 +1,4 @@
-**
+/**
   * Design Pattern
   * Labo 4 Partie 2
   * Nicolas Gonin, Karim Luy et Matthieu Bandelier
@@ -13,8 +13,8 @@ using namespace std;
 
 int main()
 {
-    Legume* legume;
-    Huile* huile;
+    Legume* legume = NULL;
+    Huile* huile = NULL;
     char answer;
     int choice;
     bool stop, answer_ok;
@@ -34,7 +34,11 @@ int main()
             cin.clear();
             if(choice<5)
             {
+                if(legume != NULL)
+                    delete legume;
                 legume=Legume::createLegume(choice);
+                if(legume != NULL)
+                    delete huile;
                 huile=Huile::createHuile(choice);
                 break;
             }

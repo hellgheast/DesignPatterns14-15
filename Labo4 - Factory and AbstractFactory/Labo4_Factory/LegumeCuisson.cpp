@@ -9,7 +9,7 @@ LegumeCuisson::LegumeCuisson()
 
 LegumeCuisson::~LegumeCuisson()
 {
-    //dtor
+    cout << "Legume pour cuisson retire" << endl;
 }
 
 void LegumeCuisson::print()

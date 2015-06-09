@@ -2,10 +2,10 @@
 
 Legume::Legume()
 {
-    //ctor
+
 }
 
 Legume::~Legume()
 {
-    //dtor
+
 }

@@ -9,7 +9,7 @@ LegumeVapeur::LegumeVapeur()
 
 LegumeVapeur::~LegumeVapeur()
 {
-    //dtor
+    cout << "Legume pour vapeur retire" << endl;
 }
 
 void LegumeVapeur::print()

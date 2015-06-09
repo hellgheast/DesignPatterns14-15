@@ -9,7 +9,7 @@ LegumePotage::LegumePotage()
 
 LegumePotage::~LegumePotage()
 {
-    //dtor
+    cout << "Legume pour potage retire" << endl;
 }
 
 void LegumePotage::print()
